@@ -23,4 +23,12 @@ describe("ship object methods", () => {
     }
     expect(bigShip.isSunk()).toBeTruthy();
   });
+
+  it("should return false if the ship is not sunk", () => {
+    const bigShip = new Ship(4, 0, "floating");
+    for (let i = 0; i < 3; i++) {
+      bigShip.hit();
+    }
+    expect(bigShip.isSunk()).toBeFalsy();
+  });
 });
