@@ -7,3 +7,4 @@ Battleship, the game.
 3. Object-Oriented Programming (OOP)
 4. JS compares arrays by reference(memory location) not by content
 5. Commit more often. I'm being too lazy with it
+6. I need to read the official docs more often.
