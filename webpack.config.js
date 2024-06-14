@@ -18,6 +18,17 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i, // Apply rule to image files
+        use: [
+          {
+            loader: "file-loader", // Use file-loader for image files
+            options: {
+              name: "[path][name].[ext]", // Keep original file name and path
+            },
+          },
+        ],
+      },
     ],
   },
 };
