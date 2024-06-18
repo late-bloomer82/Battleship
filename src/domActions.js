@@ -10,25 +10,41 @@ import submarineSrc from "./images/submarine.svg";
 export const enterCombatBtn = document.getElementById("enterCombatBtn");
 
 export function createSetupPage() {
-  //Hide main menu page
+  hideMainMenu();
+  const setupPageDiv = createSetupPageDiv();
+  const setupContainer = createSetupContainer(setupPageDiv);
+
+  createAllyMessageBox(setupContainer);
+  createGameboardLayoutSection(setupContainer);
+  createResetConfirmButtonSection(setupContainer);
+
+  createPlayerGameboard(playerGameboard);
+}
+
+function hideMainMenu() {
   const mainMenuInterface = document.getElementById("main-menu");
   mainMenuInterface.style.display = "none";
+}
 
-  //Create setup page
+function createSetupPageDiv() {
   const setupPageDiv = document.createElement("div");
   setupPageDiv.id = "setup-page";
   setupPageDiv.className = "app-page";
   document.body.appendChild(setupPageDiv);
+  return setupPageDiv;
+}
 
-  //Create the setup wrapper container
+function createSetupContainer(parent) {
   const setupContainer = document.createElement("div");
   setupContainer.id = "setup-container";
-  setupPageDiv.appendChild(setupContainer);
+  parent.appendChild(setupContainer);
+  return setupContainer;
+}
 
-  //Create ally message box
+function createAllyMessageBox(parent) {
   const allyMessageBox = document.createElement("section");
   allyMessageBox.id = "ally-message-container";
-  setupContainer.appendChild(allyMessageBox);
+  parent.appendChild(allyMessageBox);
 
   const allyImage = document.createElement("img");
   allyImage.src = allySrc;
@@ -40,21 +56,30 @@ export function createSetupPage() {
   quoteParagraph.textContent =
     "Ahoy captain! Please choose your fleet configuration";
   allyMessageBox.appendChild(quoteParagraph);
+}
 
-  //Create gameboard layout section
+function createGameboardLayoutSection(parent) {
   const gameboardLayoutSection = document.createElement("section");
   gameboardLayoutSection.id = "gameboard-layout-container";
-  setupContainer.appendChild(gameboardLayoutSection);
+  parent.appendChild(gameboardLayoutSection);
 
-  //Create grid and axis container
+  const gridAxisContainer = createGridAxisContainer(gameboardLayoutSection);
+  createAxisButtons(gridAxisContainer);
+  createBattleshipSidebar(gameboardLayoutSection);
+  createGameboardContainer(gridAxisContainer);
+}
+
+function createGridAxisContainer(parent) {
   const gridAxisContainer = document.createElement("div");
   gridAxisContainer.id = "gridaAxis-container";
-  gameboardLayoutSection.appendChild(gridAxisContainer);
+  parent.appendChild(gridAxisContainer);
+  return gridAxisContainer;
+}
 
-  //Create axis buttons container
+function createAxisButtons(parent) {
   const axisBtnContainer = document.createElement("div");
   axisBtnContainer.id = "axis-btn-container";
-  gridAxisContainer.appendChild(axisBtnContainer);
+  parent.appendChild(axisBtnContainer);
 
   const xAxisButton = document.createElement("button");
   xAxisButton.id = "xAxisButton";
@@ -63,134 +88,78 @@ export function createSetupPage() {
   yAxisButton.id = "yAxisButton";
   yAxisButton.textContent = "Y axis";
   axisBtnContainer.append(xAxisButton, yAxisButton);
+}
 
-  //Create Battleship sidebar
+function createBattleshipSidebar(parent) {
   const battleshipSidebar = document.createElement("div");
   battleshipSidebar.id = "battleship-sidebar";
-  gameboardLayoutSection.appendChild(battleshipSidebar);
+  parent.appendChild(battleshipSidebar);
 
-  const carrierContainer = document.createElement("div");
-  const carrierImage = document.createElement("img");
-  const carrierTitle = document.createElement("p");
-  carrierTitle.textContent = "Carrier (5f)";
-  carrierImage.className = "shipImg";
-  carrierImage.src = carrierSrc;
-  carrierContainer.className = "battleship-container";
-  carrierContainer.append(carrierImage, carrierTitle);
+  const ships = [
+    { src: carrierSrc, title: "Carrier (5f)" },
+    { src: battleshipSrc, title: "Battleship (4f)" },
+    { src: cruiserSrc, title: "Cruiser (3f)" },
+    { src: submarineSrc, title: "Submarine\n(3f)" },
+    { src: destroyerSrc, title: "Destroyer (2f)" },
+  ];
 
-  const battleshipContainer = document.createElement("div");
-  const battleshipImage = document.createElement("img");
-  const battleshipTitle = document.createElement("p");
-  battleshipTitle.textContent = "Battleship (4f)";
-  battleshipImage.className = "shipImg";
-  battleshipImage.src = battleshipSrc;
-  battleshipContainer.className = "battleship-container";
-  battleshipContainer.append(battleshipImage, battleshipTitle);
+  ships.forEach((ship) => {
+    const shipContainer = document.createElement("div");
+    shipContainer.className = "battleship-container";
 
-  const cruiserContainer = document.createElement("div");
-  const cruiserImage = document.createElement("img");
-  const cruiserTitle = document.createElement("p");
-  cruiserTitle.textContent = "Cruiser (3f)";
-  cruiserImage.className = "shipImg";
-  cruiserImage.src = cruiserSrc;
-  cruiserContainer.className = "battleship-container";
-  cruiserContainer.append(cruiserImage, cruiserTitle);
+    const shipImage = document.createElement("img");
+    shipImage.className = "shipImg";
+    shipImage.src = ship.src;
+    if (ship.title.includes("Submarine")) {
+      shipImage.id = "submarineImg";
+    }
 
-  const submarineContainer = document.createElement("div");
-  const submarineImage = document.createElement("img");
-  const submarineTitle = document.createElement("p");
-  submarineTitle.textContent = "Submarine\n(3f)";
-  submarineTitle.style.whiteSpace = "pre";
-  submarineTitle.style.textAlign = "center";
-  submarineTitle.style.marginTop = "0.2rem";
-  submarineImage.className = "shipImg";
-  submarineImage.id = "submarineImg";
-  submarineImage.src = submarineSrc;
-  submarineContainer.className = "battleship-container";
-  submarineContainer.append(submarineImage, submarineTitle);
+    const shipTitle = document.createElement("p");
+    shipTitle.textContent = ship.title;
+    if (ship.title.includes("Submarine")) {
+      shipTitle.style.whiteSpace = "pre";
+      shipTitle.style.textAlign = "center";
+      shipTitle.style.marginTop = "0.2rem";
+    }
 
-  const destroyerContainer = document.createElement("div");
-  const destroyerImage = document.createElement("img");
-  const destroyerTitle = document.createElement("p");
-  destroyerTitle.textContent = "Destroyer (2f)";
-  destroyerImage.className = "shipImg";
-  destroyerImage.src = destroyerSrc;
-  destroyerContainer.className = "battleship-container";
-  destroyerContainer.append(destroyerImage, destroyerTitle);
+    shipContainer.append(shipImage, shipTitle);
+    battleshipSidebar.appendChild(shipContainer);
+  });
+}
 
-  battleshipSidebar.append(
-    carrierContainer,
-    battleshipContainer,
-    cruiserContainer,
-    submarineContainer,
-    destroyerContainer
-  );
-
-  //Create gameboard container
+function createGameboardContainer(parent) {
   const gameboardContainer = document.createElement("div");
   gameboardContainer.id = "gameboard-container";
-  gridAxisContainer.appendChild(gameboardContainer);
+  parent.appendChild(gameboardContainer);
 
-  //Create y axis
   const yAxisContainer = document.createElement("div");
   yAxisContainer.id = "y-axis";
   yAxisContainer.textContent = "ABCDEFGHIJ";
   gameboardContainer.appendChild(yAxisContainer);
 
-  //Create xAxisGridContainer
   const xAxisGridContainer = document.createElement("div");
   xAxisGridContainer.id = "x-axis-grid-container";
   gameboardContainer.appendChild(xAxisGridContainer);
 
-  //Create x axis
   const xAxisContainer = document.createElement("div");
   xAxisContainer.id = "x-axis";
   xAxisGridContainer.appendChild(xAxisContainer);
 
-  // create x axis coordinates
-  const one = document.createElement("div");
-  one.textContent = "1";
-  const two = document.createElement("div");
-  two.textContent = "2";
-  const three = document.createElement("div");
-  three.textContent = "3";
-  const four = document.createElement("div");
-  four.textContent = "4";
-  const five = document.createElement("div");
-  five.textContent = "5";
-  const six = document.createElement("div");
-  six.textContent = "6";
-  const seven = document.createElement("div");
-  seven.textContent = "7";
-  const eigth = document.createElement("div");
-  eigth.textContent = "8";
-  const nine = document.createElement("div");
-  nine.textContent = "9";
-  const ten = document.createElement("div");
-  ten.textContent = "10";
+  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].forEach((num) => {
+    const div = document.createElement("div");
+    div.textContent = num;
+    xAxisContainer.appendChild(div);
+  });
 
-  xAxisContainer.append(
-    one,
-    two,
-    three,
-    four,
-    five,
-    six,
-    seven,
-    eigth,
-    nine,
-    ten
-  );
-
-  //Create gameboard grid container
   const playerGameboardGrid = document.createElement("div");
   playerGameboardGrid.id = "playerGameboardGrid";
   xAxisGridContainer.appendChild(playerGameboardGrid);
+}
 
-  //Create reset confirm button section
-  const resetConfirmButtonSection = document.createElement("section");
-  resetConfirmButtonSection.id = "reset-confirm-button-section";
-  setupContainer.appendChild(resetConfirmButtonSection);
+function createResetConfirmButtonSection(parent) {
+  const section = document.createElement("section");
+  section.id = "reset-confirm-button-section";
+  parent.appendChild(section);
 
   const resetBtn = document.createElement("button");
   resetBtn.className = "actionButtons";
@@ -200,9 +169,7 @@ export function createSetupPage() {
   confirmBtn.className = "actionButtons";
   confirmBtn.textContent = "Confirm";
 
-  resetConfirmButtonSection.append(resetBtn, confirmBtn);
-
-  createPlayerGameboard(playerGameboard);
+  section.append(resetBtn, confirmBtn);
 }
 
 export function createGrid(numberOfSquares) {
