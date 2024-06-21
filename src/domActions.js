@@ -6,6 +6,7 @@ import battleshipSrc from "./images/battleship.svg";
 import cruiserSrc from "./images/cruiser.svg";
 import destroyerSrc from "./images/destroyer.svg";
 import submarineSrc from "./images/submarine.svg";
+import { dragNdrop } from "./dragNdrop";
 
 export const enterCombatBtn = document.getElementById("enterCombatBtn");
 
@@ -19,6 +20,7 @@ export function createSetupPage() {
   createResetConfirmButtonSection(setupContainer);
 
   createPlayerGameboard(playerGameboard);
+  dragNdrop();
 }
 
 function hideMainMenu() {
@@ -105,13 +107,28 @@ function createBattleshipSidebar(parent) {
 
   ships.forEach((ship) => {
     const shipContainer = document.createElement("div");
+    shipContainer.setAttribute("draggable", "true");
     shipContainer.className = "battleship-container";
 
     const shipImage = document.createElement("img");
+    shipImage.setAttribute("draggable", "false");
     shipImage.className = "shipImg";
     shipImage.src = ship.src;
     if (ship.title.includes("Submarine")) {
-      shipImage.id = "submarineImg";
+      shipContainer.id = "submarineImg";
+      shipImage.id = "submarine";
+    }
+    if (ship.title.includes("Battleship")) {
+      shipContainer.id = "battleshipImg";
+    }
+    if (ship.title.includes("Cruiser")) {
+      shipContainer.id = "cruiserImg";
+    }
+    if (ship.title.includes("Carrier")) {
+      shipContainer.id = "carrierImg";
+    }
+    if (ship.title.includes("Destroyer")) {
+      shipContainer.id = "destroyerImg";
     }
 
     const shipTitle = document.createElement("p");
