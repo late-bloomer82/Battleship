@@ -149,7 +149,7 @@ function createBattleshipSidebar(parent) {
   });
 }
 
-function createGameboardContainer(parent) {
+export function createGameboardContainer(parent) {
   const gameboardContainer = document.createElement("div");
   gameboardContainer.id = "gameboard-container";
   parent.appendChild(gameboardContainer);
