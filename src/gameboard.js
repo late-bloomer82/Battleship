@@ -5,40 +5,26 @@ export class Gameboard {
     this.gameboard = this.createGameBoard();
   }
   createGameBoard() {
-    const size = this.rows * this.columns;
     //Gameboard made of coordinate objects
-    //Maybe I should of created the gameboard manually instead of using a loop
+
     const gameboard = [];
 
-    let x = 1;
-    let y = 1;
-
-    for (let i = 0; i < size; i++) {
-      const coordinate = { coordinates: [x, y], ship: null };
-      gameboard.push(coordinate);
-      if (y == 10) {
-        x++;
-        y = 0;
-      }
-      y++;
-    }
     return gameboard;
   }
 
   placeShip(ship, [x, y]) {
-    const targetCoordinate = this.gameboard.find(
-      (coordinateObject) =>
-        coordinateObject.coordinates[0] == x &&
-        coordinateObject.coordinates[1] == y
-    );
-    targetCoordinate.ship = ship;
+    const coordinate = {
+      ship: ship,
+      position: { left: x, top: y },
+    };
+    this.gameboard.push(coordinate);
   }
 
   receiveAttack([x, y]) {
     const targetCoordinateObject = this.gameboard.find(
       (coordinateObject) =>
-        coordinateObject.coordinates[0] == x &&
-        coordinateObject.coordinates[1] == y
+        coordinateObject.position.left == x &&
+        coordinateObject.position.top == y
     );
     if (targetCoordinateObject.ship === null) {
       //Create an missedAttack property that contains an array of missed attacks
@@ -51,8 +37,8 @@ export class Gameboard {
   findCoordinateObject([x, y]) {
     return this.gameboard.find(
       (coordinateObject) =>
-        coordinateObject.coordinates[0] == x &&
-        coordinateObject.coordinates[1] == y
+        coordinateObject.position.left == x &&
+        coordinateObject.position.top == y
     );
   }
 
@@ -66,3 +52,6 @@ export class Gameboard {
     }
   }
 }
+
+export const playerGameboard = new Gameboard(10, 10);
+export const playerGameboardArray = playerGameboard.gameboard;
