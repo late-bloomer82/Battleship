@@ -1,3 +1,11 @@
+import {
+  playerBattleship,
+  playerCarrier,
+  playerCruiser,
+  playerDestroyer,
+  playerSubmarine,
+} from "./shipClass";
+
 export class Gameboard {
   constructor(rows = 10, columns = 10) {
     this.rows = rows;
@@ -5,50 +13,67 @@ export class Gameboard {
     this.gameboard = this.createGameBoard();
   }
   createGameBoard() {
-    //Gameboard made of coordinate objects
+    //Gameboard made of shipObjectO objects
 
     const gameboard = [];
-
     return gameboard;
   }
 
-  placeShip(ship, [x, y]) {
-    const coordinate = {
-      ship: ship,
-      position: { left: x, top: y },
-    };
-    this.gameboard.push(coordinate);
-  }
+  placeShipObject(x, y, shipId) {
+    switch (shipId) {
+      case "carrierContainer":
+        playerCarrier.position = { left: x, top: y };
+        this.gameboard.push(playerCarrier);
+        break;
 
-  receiveAttack([x, y]) {
-    const targetCoordinateObject = this.gameboard.find(
-      (coordinateObject) =>
-        coordinateObject.position.left == x &&
-        coordinateObject.position.top == y
-    );
-    if (targetCoordinateObject.ship === null) {
-      //Create an missedAttack property that contains an array of missed attacks
-      targetCoordinateObject.missedAttacks = [[x, y]];
-    } else {
-      targetCoordinateObject.ship.hit();
+      case "battleshipContainer":
+        playerBattleship.position = { left: x, top: y };
+        this.gameboard.push(playerBattleship);
+        break;
+
+      case "cruiserContainer":
+        playerCruiser.position = { left: x, top: y };
+        this.gameboard.push(playerCruiser);
+        break;
+
+      case "submarineContainer":
+        playerSubmarine.position = { left: x, top: y };
+        this.gameboard.push(playerSubmarine);
+        break;
+
+      case "destroyerContainer":
+        playerDestroyer.position = { left: x, top: y };
+        this.gameboard.push(playerDestroyer);
     }
   }
 
-  findCoordinateObject([x, y]) {
+  receiveAttack([x, y]) {
+    const targetshipObject = this.gameboard.find(
+      (shipObject) =>
+        shipObject.position.left == x && shipObject.position.top == y
+    );
+    if (targetshipObject.shipObject === null) {
+      //Create an missedAttack property that contains an array of missed attacks
+      targetshipObject.missedAttacks = [[x, y]];
+    } else {
+      targetshipObject.shipObject.hit();
+    }
+  }
+
+  findshipObject([x, y]) {
     return this.gameboard.find(
-      (coordinateObject) =>
-        coordinateObject.position.left == x &&
-        coordinateObject.position.top == y
+      (shipObject) =>
+        shipObject.position.left == x && shipObject.position.top == y
     );
   }
 
   checkGameboardStatus() {
-    //step 1, find all the coordinate objects who have a ship.
-    const shipsArray = this.gameboard.filter(
-      (coordinateObject) => coordinateObject.ship != null
+    //step 1, find all the shipObjectObject objects who have a shipObject.
+    const shipObjectsArray = this.gameboard.filter(
+      (shipObject) => shipObject.shipObject != null
     );
-    if (shipsArray.every((element) => element.ship.isSunk())) {
-      console.log("All ships are sunk");
+    if (shipObjectsArray.every((element) => element.shipObject.isSunk())) {
+      console.log("All shipObjects are sunk");
     }
   }
 }
