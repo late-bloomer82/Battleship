@@ -3,6 +3,7 @@ import {
   handleShipVertically,
 } from "./axisFunctionality";
 import { checkButtonState } from "./axisButtonsStateManagement";
+import { playerGameboard } from "./gameboard";
 
 export function dragNdrop() {
   const squares = document.querySelectorAll(".squares");
@@ -62,10 +63,13 @@ function handleDrop(event) {
   const snappedX = Math.floor(x / cellWidth) * cellWidth;
   const snappedY = Math.floor(y / cellHeight) * cellHeight;
 
-  // Append ship to grid container to ensure it stays within bounds
+  // //place ship in player's gameboard object
+  playerGameboard.placeShip(draggedShipId, [snappedX, snappedY]);
+  console.log(playerGameboard.gameboard);
+  // Append ship to grid container
   gridContainer.appendChild(draggedShipImg);
 
-  // Determine ship orientation based on button state
+  // Determine ship orientation based on selected axis
   if (checkButtonState()) {
     handleShipHorizontally(
       draggedShipId,
