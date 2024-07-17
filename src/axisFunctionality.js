@@ -1,4 +1,4 @@
-import { rotateImage } from "./domActions";
+import { rotateImage } from "./domSetupPage";
 
 // Function to handle horizontal ship positioning
 export function handleShipHorizontally(
@@ -9,14 +9,15 @@ export function handleShipHorizontally(
   snappedY
 ) {
   const shipSizes = {
-    carrierImg: "18rem",
-    battleshipImg: "15rem",
-    cruiserImg: "11rem",
-    submarineImg: "11rem",
-    destroyerImg: "8rem",
+    carrierContainer: "50%",
+    battleshipContainer: "40%",
+    cruiserContainer: "40%",
+    submarineContainer: "30%",
+    destroyerContainer: "20%",
   };
   if (shipSizes[draggedShipId]) {
     draggedShipImg.style.width = shipSizes[draggedShipId];
+    draggedShipImg.style.height = "10%";
     draggedContainer.innerHTML = "";
     // Set the position of the ship
     draggedShipImg.style.position = "absolute";
@@ -34,15 +35,16 @@ export function handleShipVertically(
   snappedY
 ) {
   const shipSizes = {
-    carrierImg: "18rem",
-    battleshipImg: "15rem",
-    cruiserImg: "11rem",
-    submarineImg: "11rem",
-    destroyerImg: "8rem",
+    carrierContainer: "50%",
+    battleshipContainer: "40%",
+    cruiserContainer: "40%",
+    submarineContainer: "30%",
+    destroyerContainer: "20%",
   };
 
   if (shipSizes[draggedShipId]) {
     draggedShipImg.style.width = shipSizes[draggedShipId];
+    draggedShipImg.style.height = "10%";
     rotateImage(draggedShipImg, 90);
     draggedContainer.innerHTML = "";
     // Set the position of the ship
@@ -50,24 +52,25 @@ export function handleShipVertically(
     draggedShipImg.style.top = `${snappedY}px`;
 
     switch (draggedShipId) {
-      case "carrierImg":
-        draggedShipImg.style.left = `${snappedX - 110}px`;
+      case "carrierContainer":
+        draggedShipImg.style.left = `${snappedX - 120}px`;
         break;
 
-      case "battleshipImg":
-        draggedShipImg.style.left = `${snappedX - 80}px`;
+      case "battleshipContainer":
+        draggedShipImg.style.left = `${snappedX - 90}px`;
+        draggedShipImg.style.top = `${snappedY - 28}px`;
+        break;
+
+      case "cruiserContainer":
+        draggedShipImg.style.left = `${snappedX - 90}px`;
         draggedShipImg.style.top = `${snappedY - 30}px`;
         break;
 
-      case "cruiserImg":
-        draggedShipImg.style.left = `${snappedX - 60}px`;
+      case "submarineContainer":
+        draggedShipImg.style.left = `${snappedX - 58}px`;
         break;
 
-      case "submarineImg":
-        draggedShipImg.style.left = `${snappedX - 55}px`;
-        break;
-
-      case "destroyerImg":
+      case "destroyerContainer":
         draggedShipImg.style.left = `${snappedX - 30}px`;
         draggedShipImg.style.top = `${snappedY - 25}px`;
     }
