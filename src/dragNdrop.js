@@ -4,6 +4,13 @@ import {
 } from "./axisFunctionality";
 import { checkButtonState } from "./axisButtonsStateManagement";
 import { playerGameboard } from "./gameboard";
+import {
+  playerBattleship,
+  playerCarrier,
+  playerCruiser,
+  playerDestroyer,
+  playerSubmarine,
+} from "./shipClass";
 
 export function dragNdrop() {
   const squares = document.querySelectorAll(".squares");
@@ -64,7 +71,7 @@ function handleDrop(event) {
   const snappedY = Math.floor(y / cellHeight) * cellHeight;
 
   // //place ship in player's gameboard object
-  playerGameboard.placeShip(draggedShipId, [snappedX, snappedY]);
+  playerGameboard.placeShipObject(snappedX, snappedY, draggedShipId);
   console.log(playerGameboard.gameboard);
   // Append ship to grid container
   gridContainer.appendChild(draggedShipImg);
