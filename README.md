@@ -9,3 +9,4 @@ Battleship, the game.
 5. Commit more often. I'm being too lazy with it
 6. I need to read the official docs more often.
 7. Generally, for responsive and accessible web applications, it's better to use relative units.
+8. I familiarize myself with using css classes and pseudoclasses and manipulating classes using js.
