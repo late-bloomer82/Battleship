@@ -53,11 +53,11 @@ export function handleShipVertically(
 
     switch (draggedShipId) {
       case "carrierContainer":
-        draggedShipImg.style.left = `${snappedX - 120}px`;
+        draggedShipImg.style.left = `${snappedX - 115}px`;
         break;
 
       case "battleshipContainer":
-        draggedShipImg.style.left = `${snappedX - 90}px`;
+        draggedShipImg.style.left = `${snappedX - 83}px`;
         draggedShipImg.style.top = `${snappedY - 28}px`;
         break;
 

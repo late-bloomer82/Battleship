@@ -4,18 +4,11 @@ import {
 } from "./axisFunctionality";
 import { checkButtonState } from "./axisButtonsStateManagement";
 import { playerGameboard } from "./gameboard";
-import {
-  playerBattleship,
-  playerCarrier,
-  playerCruiser,
-  playerDestroyer,
-  playerSubmarine,
-} from "./shipClass";
 
 export function dragNdrop() {
   const squares = document.querySelectorAll(".squares");
 
-  const gridContainer = document.getElementById("playerGameboardGrid");
+  const gridContainer = document.querySelector(".gameboard-grid");
   const shipContainers = document.querySelectorAll(".battleship-container");
 
   shipContainers.forEach((shipContainer) => {
@@ -51,7 +44,7 @@ function handleDragLeave(event) {
 function handleDrop(event) {
   event.preventDefault();
   const square = event.target;
-  const gridContainer = document.getElementById("playerGameboardGrid");
+  const gridContainer = document.querySelector(".gameboard-grid");
   const draggedShipId = event.dataTransfer.getData("text/plain");
   const draggedContainer = document.getElementById(draggedShipId);
   const draggedShipImg = document.querySelector(`#${draggedShipId} img`);
@@ -63,8 +56,8 @@ function handleDrop(event) {
   const y = event.clientY - rect.top;
 
   // Calculate the size of individual grid cells based on the provided dimensions
-  const cellWidth = 60; // width of each cell
-  const cellHeight = 59; // height of each cell
+  const cellWidth = 56.55; // width of each cell
+  const cellHeight = 55.69; // height of each cell
 
   // Snap to the grid by rounding to the nearest cell size
   const snappedX = Math.floor(x / cellWidth) * cellWidth;
