@@ -8,7 +8,9 @@ import submarineSrc from "./images/submarine.svg";
 import { dragNdrop } from "./dragNdrop";
 import { toggleButtonState } from "./axisButtonsStateManagement";
 import { playerGameboard } from "./gameboard";
+import { createGamePage } from "./domGamePage";
 export const enterCombatBtn = document.getElementById("enterCombatBtn");
+export { allySrc };
 
 export function createSetupPage() {
   hideMainMenu();
@@ -73,7 +75,7 @@ function createGameboardLayoutSection(parent) {
   const gridAxisContainer = createGridAxisContainer(gameboardLayoutSection);
   createAxisButtons(gridAxisContainer);
   createBattleshipSidebar(gameboardLayoutSection);
-  createGameboardContainer(gridAxisContainer);
+  createGameboardContainer(gridAxisContainer, "setup-grid");
 }
 
 function createGridAxisContainer(parent) {
@@ -149,10 +151,22 @@ function createBattleshipSidebar(parent) {
   });
 }
 
-export function createGameboardContainer(parent) {
+export function createGameboardContainer(parent, gridId, gameboardId) {
   const gameboardContainer = document.createElement("div");
-  gameboardContainer.id = "gameboard-container";
+  gameboardContainer.className = "gameboard-container";
+  gameboardContainer.id = gameboardId;
   parent.appendChild(gameboardContainer);
+
+  if (gameboardId) {
+    const gameboardHeader = document.createElement("header");
+    gameboardHeader.className = "gameboard-header";
+    gameboardContainer.appendChild(gameboardHeader);
+    if (gameboardId === "player-gameboard") {
+      gameboardHeader.textContent = "Friendly Waters";
+    } else if (gameboardId === "computer-gameboard") {
+      gameboardHeader.textContent = "Enemy Waters";
+    }
+  }
 
   const yAxisContainer = document.createElement("div");
   yAxisContainer.id = "y-axis";
@@ -173,9 +187,10 @@ export function createGameboardContainer(parent) {
     xAxisContainer.appendChild(div);
   });
 
-  const playerGameboardGrid = document.createElement("div");
-  playerGameboardGrid.id = "playerGameboardGrid";
-  xAxisGridContainer.appendChild(playerGameboardGrid);
+  const gameboardGrid = document.createElement("div");
+  gameboardGrid.id = gridId;
+  gameboardGrid.className = "gameboard-grid";
+  xAxisGridContainer.appendChild(gameboardGrid);
 }
 
 function createResetConfirmButtonSection(parent) {
@@ -201,12 +216,12 @@ export function rotateImage(image, angle) {
 }
 
 export function createGrid(numberOfSquares) {
-  const playerGameboardGrid = document.getElementById("playerGameboardGrid");
+  const gameboardGrid = document.getElementById("setup-grid");
 
   for (let i = 0; i < numberOfSquares; i++) {
     const square = document.createElement("div");
     square.className = "squares";
-    playerGameboardGrid.appendChild(square);
+    gameboardGrid.appendChild(square);
   }
 }
 
@@ -239,6 +254,7 @@ function resetButton() {
   const resetBtn = document.getElementById("resetButton");
 
   resetBtn.addEventListener("click", () => {
+    console.log("dog");
     const containers = {
       [carrierSrc]: {
         container: document.getElementById("carrierContainer"),
@@ -262,9 +278,7 @@ function resetButton() {
       },
     };
 
-    const placedShips = document.querySelectorAll(
-      "#playerGameboardGrid .shipImg"
-    );
+    const placedShips = document.querySelectorAll(".gameboard-grid .shipImg");
 
     placedShips.forEach((placedShip) => {
       const shipInfo = containers[placedShip.src];
@@ -277,6 +291,7 @@ function resetButton() {
 
 function gamePageTransition() {
   hideSetupPage();
+  createGamePage();
 }
 
 function hideSetupPage() {
