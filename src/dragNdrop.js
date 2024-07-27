@@ -41,35 +41,73 @@ function handleDragLeave(event) {
   event.preventDefault();
   event.target.classList.remove("highlight");
 }
-function handleDrop(event) {
+// Function to prevent default drop behavior
+function preventDefault(event) {
   event.preventDefault();
-  const square = event.target;
-  const gridContainer = document.querySelector(".gameboard-grid");
+}
+
+// Function to get the dragged ship details
+function getDraggedShipDetails(event) {
   const draggedShipId = event.dataTransfer.getData("text/plain");
   const draggedContainer = document.getElementById(draggedShipId);
   const draggedShipImg = document.querySelector(`#${draggedShipId} img`);
-  square.classList.remove("highlight");
+  return { draggedShipId, draggedContainer, draggedShipImg };
+}
 
-  // Calculate the position relative to the grid container
+// Function to calculate the position relative to the grid container
+function calculateRelativePosition(event, gridContainer) {
   const rect = gridContainer.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
+  return { x, y };
+}
 
-  // Calculate the size of individual grid cells based on the provided dimensions
-  const cellWidth = 56.55; // width of each cell
-  const cellHeight = 55.69; // height of each cell
-
-  // Snap to the grid by rounding to the nearest cell size
+// Function to snap position to the grid
+function snapToGrid(x, y, cellWidth, cellHeight) {
   const snappedX = Math.floor(x / cellWidth) * cellWidth;
   const snappedY = Math.floor(y / cellHeight) * cellHeight;
+  return { snappedX, snappedY };
+}
 
-  // //place ship in player's gameboard object
+// Function to place the ship on the gameboard
+function placeShipOnGameboard(
+  snappedX,
+  snappedY,
+  draggedShipId,
+  draggedShipImg,
+  gridContainer
+) {
   playerGameboard.placeShipObject(snappedX, snappedY, draggedShipId);
   console.log(playerGameboard.gameboard);
-  // Append ship to grid container
   gridContainer.appendChild(draggedShipImg);
+}
 
-  // Determine ship orientation based on selected axis
+// Main function to handle drop event
+function handleDrop(event) {
+  preventDefault(event);
+
+  const square = event.target;
+  const gridContainer = document.querySelector(".gameboard-grid");
+  const { draggedShipId, draggedContainer, draggedShipImg } =
+    getDraggedShipDetails(event);
+
+  square.classList.remove("highlight");
+
+  const { x, y } = calculateRelativePosition(event, gridContainer);
+
+  const cellWidth = 56.55;
+  const cellHeight = 55.69;
+
+  const { snappedX, snappedY } = snapToGrid(x, y, cellWidth, cellHeight);
+
+  placeShipOnGameboard(
+    snappedX,
+    snappedY,
+    draggedShipId,
+    draggedShipImg,
+    gridContainer
+  );
+
   if (checkButtonState()) {
     handleShipHorizontally(
       draggedShipId,
