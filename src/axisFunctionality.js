@@ -1,5 +1,13 @@
 import { rotateImage } from "./domSetupPage";
 
+const shipSizes = {
+  carrierContainer: "50%",
+  battleshipContainer: "40%",
+  cruiserContainer: "40%",
+  submarineContainer: "30%",
+  destroyerContainer: "20%",
+};
+
 // Function to handle horizontal ship positioning
 export function handleShipHorizontally(
   draggedShipId,
@@ -8,13 +16,6 @@ export function handleShipHorizontally(
   snappedX,
   snappedY
 ) {
-  const shipSizes = {
-    carrierContainer: "50%",
-    battleshipContainer: "40%",
-    cruiserContainer: "40%",
-    submarineContainer: "30%",
-    destroyerContainer: "20%",
-  };
   if (shipSizes[draggedShipId]) {
     draggedShipImg.style.width = shipSizes[draggedShipId];
     draggedShipImg.style.height = "10%";
@@ -34,14 +35,6 @@ export function handleShipVertically(
   snappedX,
   snappedY
 ) {
-  const shipSizes = {
-    carrierContainer: "50%",
-    battleshipContainer: "40%",
-    cruiserContainer: "40%",
-    submarineContainer: "30%",
-    destroyerContainer: "20%",
-  };
-
   if (shipSizes[draggedShipId]) {
     draggedShipImg.style.width = shipSizes[draggedShipId];
     draggedShipImg.style.height = "10%";
