@@ -10,13 +10,7 @@ export class Gameboard {
   constructor(rows = 10, columns = 10) {
     this.rows = rows;
     this.columns = columns;
-    this.gameboard = this.createGameBoard();
-  }
-  createGameBoard() {
-    //Gameboard made of shipObjectO objects
-
-    const gameboard = [];
-    return gameboard;
+    this.gameboard = [];
   }
 
   placeShipObject(x, y, shipId) {
@@ -79,4 +73,4 @@ export class Gameboard {
 }
 
 export const playerGameboard = new Gameboard(10, 10);
-export const playerGameboardArray = playerGameboard.gameboard;
+export const computerGameboard = new Gameboard(10, 10);
