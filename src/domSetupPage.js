@@ -10,7 +10,14 @@ import { toggleButtonState } from "./axisButtonsStateManagement";
 import { playerGameboard } from "./gameboard";
 import { createGamePage } from "./domGamePage";
 export const enterCombatBtn = document.getElementById("enterCombatBtn");
-export { allySrc };
+export {
+  allySrc,
+  carrierSrc,
+  battleshipSrc,
+  cruiserSrc,
+  destroyerSrc,
+  submarineSrc,
+};
 
 export function createSetupPage() {
   hideMainMenu();
@@ -161,6 +168,7 @@ export function createGameboardContainer(parent, gridId, gameboardId) {
     const gameboardHeader = document.createElement("header");
     gameboardHeader.className = "gameboard-header";
     gameboardContainer.appendChild(gameboardHeader);
+
     if (gameboardId === "player-gameboard") {
       gameboardHeader.textContent = "Friendly Waters";
     } else if (gameboardId === "computer-gameboard") {
