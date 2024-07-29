@@ -1,6 +1,7 @@
 import { createGameboardContainer } from "./domSetupPage";
 import enemyImg from "./images/enemy.png";
 import { allySrc } from "./domSetupPage";
+import { populatePlayerGameboard } from "./renderGameboard";
 
 export function createGamePage() {
   const gamePageContainer = document.createElement("div");
@@ -14,6 +15,7 @@ export function createGamePage() {
   gameContainer.append(gameboardArea, quoteArea);
   createGrid("player-grid");
   createGrid("computer-grid");
+  populatePlayerGameboard();
 }
 
 function createGameboardArea() {
