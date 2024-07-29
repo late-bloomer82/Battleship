@@ -1,10 +1,11 @@
 export class Ship {
-  constructor(length, hitCount = 0, status = "floating", name, position) {
+  constructor(length, hitCount = 0, status = "floating", name, position, axis) {
     this.name = name;
     this.length = length;
     this.hitCount = hitCount;
     this.status = status;
     this.position = position;
+    this.axis = axis;
   }
 
   hit() {
