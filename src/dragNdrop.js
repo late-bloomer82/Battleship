@@ -41,10 +41,6 @@ function handleDragLeave(event) {
   event.preventDefault();
   event.target.classList.remove("highlight");
 }
-// Function to prevent default drop behavior
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 // Function to get the dragged ship details
 function getDraggedShipDetails(event) {
@@ -54,37 +50,53 @@ function getDraggedShipDetails(event) {
   return { draggedShipId, draggedContainer, draggedShipImg };
 }
 
-// Function to calculate the position relative to the grid container
-function calculateRelativePosition(event, gridContainer) {
+// Function to calculate the position relative to the grid container in percentages
+export function calculateRelativePositionInPercent(event, gridContainer) {
   const rect = gridContainer.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
-  return { x, y };
+  const xPercent = (x / rect.width) * 100;
+  const yPercent = (y / rect.height) * 100;
+  return { xPercent, yPercent };
 }
 
-// Function to snap position to the grid
-function snapToGrid(x, y, cellWidth, cellHeight) {
-  const snappedX = Math.floor(x / cellWidth) * cellWidth;
-  const snappedY = Math.floor(y / cellHeight) * cellHeight;
-  return { snappedX, snappedY };
+// Function to snap position to the grid in percentages
+export function snapToGridInPercent(
+  xPercent,
+  yPercent,
+  cellWidthPercent,
+  cellHeightPercent
+) {
+  const snappedXPercent =
+    Math.floor(xPercent / cellWidthPercent) * cellWidthPercent;
+  const snappedYPercent =
+    Math.floor(yPercent / cellHeightPercent) * cellHeightPercent;
+  return { snappedXPercent, snappedYPercent };
 }
 
-// Function to place the ship on the gameboard
+// Function to place the ship on the gameboard in percentages
 function placeShipOnGameboard(
-  snappedX,
-  snappedY,
+  snappedXPercent,
+  snappedYPercent,
   draggedShipId,
   draggedShipImg,
   gridContainer
 ) {
-  playerGameboard.placeShipObject(snappedX, snappedY, draggedShipId);
+  playerGameboard.placeShipObject(
+    snappedXPercent,
+    snappedYPercent,
+    draggedShipId
+  );
   console.log(playerGameboard.gameboard);
+  draggedShipImg.style.position = "absolute";
+  draggedShipImg.style.left = `${snappedXPercent}%`;
+  draggedShipImg.style.top = `${snappedYPercent}%`;
   gridContainer.appendChild(draggedShipImg);
 }
 
 // Main function to handle drop event
 function handleDrop(event) {
-  preventDefault(event);
+  event.preventDefault();
 
   const square = event.target;
   const gridContainer = document.querySelector(".gameboard-grid");
@@ -93,16 +105,26 @@ function handleDrop(event) {
 
   square.classList.remove("highlight");
 
-  const { x, y } = calculateRelativePosition(event, gridContainer);
+  const { xPercent, yPercent } = calculateRelativePositionInPercent(
+    event,
+    gridContainer
+  );
 
-  const cellWidth = 56.55;
-  const cellHeight = 55.69;
+  const cellWidthPercent =
+    (56.94 / gridContainer.getBoundingClientRect().width) * 100;
+  const cellHeightPercent =
+    (55.99 / gridContainer.getBoundingClientRect().height) * 100;
 
-  const { snappedX, snappedY } = snapToGrid(x, y, cellWidth, cellHeight);
+  const { snappedXPercent, snappedYPercent } = snapToGridInPercent(
+    xPercent,
+    yPercent,
+    cellWidthPercent,
+    cellHeightPercent
+  );
 
   placeShipOnGameboard(
-    snappedX,
-    snappedY,
+    snappedXPercent,
+    snappedYPercent,
     draggedShipId,
     draggedShipImg,
     gridContainer
@@ -113,16 +135,16 @@ function handleDrop(event) {
       draggedShipId,
       draggedShipImg,
       draggedContainer,
-      snappedX,
-      snappedY
+      snappedXPercent,
+      snappedYPercent
     );
   } else {
     handleShipVertically(
       draggedShipId,
       draggedShipImg,
       draggedContainer,
-      snappedX,
-      snappedY
+      snappedXPercent,
+      snappedYPercent
     );
   }
 }
