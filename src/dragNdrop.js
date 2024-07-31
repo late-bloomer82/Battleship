@@ -55,8 +55,8 @@ export function calculateRelativePositionInPercent(event, gridContainer) {
   const rect = gridContainer.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
-  const xPercent = (x / rect.width) * 100;
-  const yPercent = (y / rect.height) * 100;
+  const xPercent = Math.round((x / rect.width) * 100);
+  const yPercent = Math.round((y / rect.height) * 100);
   return { xPercent, yPercent };
 }
 
@@ -71,7 +71,10 @@ export function snapToGridInPercent(
     Math.floor(xPercent / cellWidthPercent) * cellWidthPercent;
   const snappedYPercent =
     Math.floor(yPercent / cellHeightPercent) * cellHeightPercent;
-  return { snappedXPercent, snappedYPercent };
+  return {
+    snappedXPercent: Math.round(snappedXPercent),
+    snappedYPercent: Math.round(snappedYPercent),
+  };
 }
 
 // Function to place the ship on the gameboard in percentages
