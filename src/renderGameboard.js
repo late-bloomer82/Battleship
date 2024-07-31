@@ -15,6 +15,8 @@ import {
   playerSubmarine,
 } from "./shipClass";
 
+//Player gameboard
+
 export function createPlayerGameboard(gameboard) {
   const numberOfSquares = gameboard.rows * gameboard.columns;
 
@@ -23,26 +25,28 @@ export function createPlayerGameboard(gameboard) {
 
 export function populatePlayerGameboard() {
   const gameboardArray = playerGameboard.gameboard;
-  gameboardArray.forEach((ship) => {
-    switch (ship.name) {
-      case "carrier":
-        setShip(ship, carrierSrc);
-        break;
+  gameboardArray.forEach((coordinate) => {
+    if (coordinate.ship != null) {
+      switch (coordinate.ship.name) {
+        case "carrier":
+          setShip(coordinate.ship, carrierSrc);
+          break;
 
-      case "battleship":
-        setShip(ship, battleshipSrc);
-        break;
+        case "battleship":
+          setShip(coordinate.ship, battleshipSrc);
+          break;
 
-      case "cruiser":
-        setShip(ship, cruiserSrc);
-        break;
+        case "cruiser":
+          setShip(coordinate.ship, cruiserSrc);
+          break;
 
-      case "submarine":
-        setShip(ship, submarineSrc);
-        break;
+        case "submarine":
+          setShip(coordinate.ship, submarineSrc);
+          break;
 
-      case "destroyer":
-        setShip(ship, destroyerSrc);
+        case "destroyer":
+          setShip(coordinate.ship, destroyerSrc);
+      }
     }
   });
 }
