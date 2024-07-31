@@ -13,54 +13,116 @@ export class Gameboard {
     this.gameboard = this.createGameBoard();
   }
   createGameBoard() {
-    const size = this.rows * this.columns;
-    //Gameboard made of coordinate objects
-    //Maybe I should of created the gameboard manually instead of using a loop
+    const rows = 10; // Number of rows
+    const columns = 10; // Number of columns
+    const size = rows * columns;
+    const gameboard = [];
 
     let x = 0;
     let y = 0;
-    const gameboard = [];
 
     for (let i = 0; i < size; i++) {
       const coordinate = { coordinates: [x, y], ship: null };
       gameboard.push(coordinate);
-      if (y == 10) {
+
+      y++;
+      if (y == columns) {
         x++;
         y = 0;
       }
-      y++;
     }
     return gameboard;
   }
 
   placeShipObject(left, top, shipId) {
-    const matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
+    let matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
     console.log(matchingCoordinateIndex);
     switch (shipId) {
       case "carrierContainer":
         playerCarrier.position = { left: left, top: top };
-        this.gameboard[matchingCoordinateIndex].ship = playerCarrier;
 
+        //If ship is positioned vertically
+        if (playerCarrier.axis === "y") {
+          for (let i = 0; i < 5; i++) {
+            this.gameboard[matchingCoordinateIndex + i].ship = playerCarrier;
+          }
+        }
+        //If ship is positioned horizontally
+        else {
+          this.gameboard[matchingCoordinateIndex].ship = playerCarrier;
+          for (let i = 0; i < 4; i++) {
+            matchingCoordinateIndex += 10;
+            this.gameboard[matchingCoordinateIndex].ship = playerCarrier;
+          }
+        }
         break;
 
       case "battleshipContainer":
         playerBattleship.position = { left: left, top: top };
-        this.gameboard[matchingCoordinateIndex].ship = playerBattleship;
+        //If ship is positioned vertically
+        if (playerBattleship.axis === "y") {
+          for (let i = 0; i < 4; i++) {
+            this.gameboard[matchingCoordinateIndex + i].ship = playerBattleship;
+          }
+        }
+        //If ship is positioned horizontally
+        else {
+          this.gameboard[matchingCoordinateIndex].ship = playerBattleship;
+          for (let i = 0; i < 3; i++) {
+            matchingCoordinateIndex += 10;
+            this.gameboard[matchingCoordinateIndex].ship = playerBattleship;
+          }
+        }
         break;
 
       case "cruiserContainer":
         playerCruiser.position = { left: left, top: top };
-        this.gameboard[matchingCoordinateIndex].ship = playerCruiser;
+        //If ship is positioned vertically
+        if (playerCruiser.axis === "y") {
+          for (let i = 0; i < 3; i++) {
+            this.gameboard[matchingCoordinateIndex + i].ship = playerCruiser;
+          }
+        }
+        //If ship is positioned horizontally
+        else {
+          this.gameboard[matchingCoordinateIndex].ship = playerCruiser;
+          for (let i = 0; i < 2; i++) {
+            matchingCoordinateIndex += 10;
+            this.gameboard[matchingCoordinateIndex].ship = playerCruiser;
+          }
+        }
         break;
 
       case "submarineContainer":
         playerSubmarine.position = { left: left, top: top };
-        this.gameboard[matchingCoordinateIndex].ship = playerSubmarine;
+        //If ship is positioned vertically
+        if (playerSubmarine.axis === "y") {
+          for (let i = 0; i < 3; i++) {
+            this.gameboard[matchingCoordinateIndex + i].ship = playerSubmarine;
+          }
+        }
+        //If ship is positioned horizontally
+        else {
+          this.gameboard[matchingCoordinateIndex].ship = playerSubmarine;
+          for (let i = 0; i < 2; i++) {
+            matchingCoordinateIndex += 10;
+            this.gameboard[matchingCoordinateIndex].ship = playerSubmarine;
+          }
+        }
         break;
 
       case "destroyerContainer":
         playerDestroyer.position = { left: left, top: top };
-        this.gameboard[matchingCoordinateIndex].ship = playerDestroyer;
+        //If ship is positioned vertically
+        if (playerDestroyer.axis === "y") {
+          for (let i = 0; i < 2; i++) {
+            this.gameboard[matchingCoordinateIndex + i].ship = playerDestroyer;
+          }
+        }
+        //If ship is positioned horizontally
+        else {
+          this.gameboard[matchingCoordinateIndex].ship = playerDestroyer;
+        }
     }
   }
 
