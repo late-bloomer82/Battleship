@@ -1,6 +1,7 @@
 import {
-  handleShipHorizontally,
-  handleShipVertically,
+  placeShip,
+  modifyShipAxisProperty,
+  rotateImage,
 } from "./axisFunctionality";
 import { checkButtonState } from "./axisButtonsStateManagement";
 import { playerGameboard } from "./gameboard";
@@ -77,26 +78,6 @@ export function snapToGridInPercent(
   };
 }
 
-// Function to place the ship on the gameboard in percentages
-function placeShipOnGameboard(
-  snappedXPercent,
-  snappedYPercent,
-  draggedShipId,
-  draggedShipImg,
-  gridContainer
-) {
-  playerGameboard.placeShipObject(
-    snappedXPercent,
-    snappedYPercent,
-    draggedShipId
-  );
-  console.log(playerGameboard.gameboard);
-  draggedShipImg.style.position = "absolute";
-  draggedShipImg.style.left = `${snappedXPercent}%`;
-  draggedShipImg.style.top = `${snappedYPercent}%`;
-  gridContainer.appendChild(draggedShipImg);
-}
-
 // Main function to handle drop event
 function handleDrop(event) {
   event.preventDefault();
@@ -125,29 +106,26 @@ function handleDrop(event) {
     cellHeightPercent
   );
 
-  placeShipOnGameboard(
+  playerGameboard.placeShipObject(
     snappedXPercent,
     snappedYPercent,
+    draggedShipId
+  );
+
+  //If y button selected
+  if (!checkButtonState()) {
+    modifyShipAxisProperty(draggedShipId);
+    rotateImage(draggedShipImg, 90);
+  }
+
+  placeShip(
     draggedShipId,
     draggedShipImg,
+    draggedContainer,
+    snappedXPercent,
+    snappedYPercent,
     gridContainer
   );
 
-  if (checkButtonState()) {
-    handleShipHorizontally(
-      draggedShipId,
-      draggedShipImg,
-      draggedContainer,
-      snappedXPercent,
-      snappedYPercent
-    );
-  } else {
-    handleShipVertically(
-      draggedShipId,
-      draggedShipImg,
-      draggedContainer,
-      snappedXPercent,
-      snappedYPercent
-    );
-  }
+  console.log(playerGameboard);
 }
