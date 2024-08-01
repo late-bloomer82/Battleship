@@ -105,12 +105,7 @@ function handleDrop(event) {
     cellWidthPercent,
     cellHeightPercent
   );
-
-  playerGameboard.placeShipObject(
-    snappedXPercent,
-    snappedYPercent,
-    draggedShipId
-  );
+  console.log(snappedXPercent, snappedYPercent, draggedShipId);
 
   //If y button selected
   if (!checkButtonState()) {
@@ -125,6 +120,12 @@ function handleDrop(event) {
     snappedXPercent,
     snappedYPercent,
     gridContainer
+  );
+
+  playerGameboard.placeShipObject(
+    snappedXPercent,
+    snappedYPercent,
+    draggedShipId
   );
 
   console.log(playerGameboard);
