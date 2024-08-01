@@ -219,7 +219,7 @@ function createResetConfirmButtonSection(parent) {
   section.append(resetBtn, confirmBtn);
 }
 
-export function rotateImage(image, angle) {
+function rotateImage(image, angle) {
   image.style.transform = `rotate(${angle}deg)`;
 }
 
