@@ -43,8 +43,9 @@ export class Gameboard {
 
         //If ship is positioned vertically
         if (playerCarrier.axis === "y") {
+          console.log("dog");
           for (let i = 0; i < 5; i++) {
-            this.gameboard[matchingCoordinateIndex + i].ship = playerCarrier;
+            this.gameboard[matchingCoordinateIndex - i].ship = playerCarrier;
           }
         }
         //If ship is positioned horizontally
@@ -62,7 +63,7 @@ export class Gameboard {
         //If ship is positioned vertically
         if (playerBattleship.axis === "y") {
           for (let i = 0; i < 4; i++) {
-            this.gameboard[matchingCoordinateIndex + i].ship = playerBattleship;
+            this.gameboard[matchingCoordinateIndex - i].ship = playerBattleship;
           }
         }
         //If ship is positioned horizontally
@@ -80,7 +81,7 @@ export class Gameboard {
         //If ship is positioned vertically
         if (playerCruiser.axis === "y") {
           for (let i = 0; i < 3; i++) {
-            this.gameboard[matchingCoordinateIndex + i].ship = playerCruiser;
+            this.gameboard[matchingCoordinateIndex - i].ship = playerCruiser;
           }
         }
         //If ship is positioned horizontally
@@ -98,7 +99,7 @@ export class Gameboard {
         //If ship is positioned vertically
         if (playerSubmarine.axis === "y") {
           for (let i = 0; i < 3; i++) {
-            this.gameboard[matchingCoordinateIndex + i].ship = playerSubmarine;
+            this.gameboard[matchingCoordinateIndex - i].ship = playerSubmarine;
           }
         }
         //If ship is positioned horizontally
@@ -116,7 +117,7 @@ export class Gameboard {
         //If ship is positioned vertically
         if (playerDestroyer.axis === "y") {
           for (let i = 0; i < 2; i++) {
-            this.gameboard[matchingCoordinateIndex + i].ship = playerDestroyer;
+            this.gameboard[matchingCoordinateIndex - i].ship = playerDestroyer;
           }
         }
         //If ship is positioned horizontally
