@@ -35,15 +35,15 @@ export class Gameboard {
   }
 
   placeShipObject(left, top, shipId) {
+    console.log(playerGameboard);
     let matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
-    console.log(matchingCoordinateIndex);
+
     switch (shipId) {
       case "carrierContainer":
         playerCarrier.position = { left: left, top: top };
 
         //If ship is positioned vertically
         if (playerCarrier.axis === "y") {
-          console.log("dog");
           for (let i = 0; i < 5; i++) {
             this.gameboard[matchingCoordinateIndex - i].ship = playerCarrier;
           }
