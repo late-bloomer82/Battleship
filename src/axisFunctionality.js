@@ -1,4 +1,3 @@
-import { rotateImage } from "./domSetupPage";
 import {
   playerBattleship,
   playerCarrier,
@@ -16,12 +15,13 @@ const shipSizes = {
 };
 
 // Function to handle horizontal ship positioning
-export function handleShipHorizontally(
+export function placeShip(
   draggedShipId,
   draggedShipImg,
   draggedContainer,
   snappedX,
-  snappedY
+  snappedY,
+  gridContainer
 ) {
   if (shipSizes[draggedShipId]) {
     draggedShipImg.style.width = shipSizes[draggedShipId];
@@ -31,53 +31,34 @@ export function handleShipHorizontally(
     draggedShipImg.style.position = "absolute";
     draggedShipImg.style.left = `${snappedX}%`;
     draggedShipImg.style.top = `${snappedY}%`;
+    gridContainer.appendChild(draggedShipImg);
   }
 }
-export function handleShipVertically(
-  draggedShipId,
-  draggedShipImg,
-  draggedContainer,
-  snappedX,
-  snappedY
-) {
-  if (shipSizes[draggedShipId]) {
-    rotateImage(draggedShipImg, 90);
-    draggedShipImg.style.width = shipSizes[draggedShipId];
-    draggedShipImg.style.height = "10%";
 
-    draggedContainer.innerHTML = "";
-    // Set the position of the ship
-    draggedShipImg.style.position = "absolute";
+export function modifyShipAxisProperty(draggedShipId) {
+  switch (draggedShipId) {
+    case "carrierContainer":
+      playerCarrier.axis = "y";
+      break;
 
-    switch (draggedShipId) {
-      case "carrierContainer":
-        playerCarrier.axis = "y";
-        draggedShipImg.style.left = `${snappedX - 20}%`;
-        draggedShipImg.style.top = `${snappedY}%`;
-        break;
+    case "battleshipContainer":
+      playerBattleship.axis = "y";
+      break;
 
-      case "battleshipContainer":
-        playerBattleship.axis = "y";
-        draggedShipImg.style.left = `${snappedX - 14.5}%`;
-        draggedShipImg.style.top = `${snappedY - 15}%`;
-        break;
+    case "cruiserContainer":
+      playerCruiser.axis = "y";
+      break;
 
-      case "cruiserContainer":
-        playerCruiser.axis = "y";
-        draggedShipImg.style.left = `${snappedX - 14.5}%`;
-        draggedShipImg.style.top = `${snappedY - 15}%`;
-        break;
+    case "submarineContainer":
+      playerSubmarine.axis = "y";
+      break;
 
-      case "submarineContainer":
-        playerSubmarine.axis = "y";
-        draggedShipImg.style.left = `${snappedX - 9.5}%`;
-        draggedShipImg.style.top = `${snappedY - 10}%`;
-        break;
-
-      case "destroyerContainer":
-        playerDestroyer.axis = "y";
-        draggedShipImg.style.left = `${snappedX - 5}%`;
-        draggedShipImg.style.top = `${snappedY - 5}%`;
-    }
+    case "destroyerContainer":
+      playerDestroyer.axis = "y";
   }
+}
+
+export function rotateImage(img, angle) {
+  img.style.transform = `rotate(${angle}deg) translate(0px, -100%)`;
+  img.style.transformOrigin = "left top";
 }
