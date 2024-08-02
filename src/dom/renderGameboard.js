@@ -15,6 +15,7 @@ import {
   playerDestroyer,
   playerSubmarine,
 } from "../classes/ship";
+import { humanUser } from "../classes/player";
 
 // Player gameboard
 
@@ -24,16 +25,21 @@ export function createPlayerGameboard(gameboard) {
 }
 
 export function populatePlayerGameboard() {
-  const gameboardArray = playerGameboard.gameboard;
-  gameboardArray.forEach((coordinate) => {
-    if (coordinate.ship) {
-      const { name, position } = coordinate.ship;
+  const playerShips = humanUser.ships;
+  console.log(playerShips);
+
+  for (let key in playerShips) {
+    const ship = playerShips[key]; // Access the ship object using the key
+    if (ship.position != null) {
+      const { name, position } = ship;
       const shipDetails = getShipDetails(name, position);
       if (shipDetails) {
         setShip(shipDetails);
       }
     }
-  });
+  }
+
+  console.log(playerGameboard);
 }
 
 function getShipDetails(shipName, position) {
