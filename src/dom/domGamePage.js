@@ -1,5 +1,5 @@
 import { createGameboardContainer } from "./domSetupPage";
-import enemyImg from "./images/enemy.png";
+import enemyImg from "../images/enemy.png";
 import { allySrc } from "./domSetupPage";
 import { populatePlayerGameboard } from "./renderGameboard";
 

@@ -4,7 +4,7 @@ import {
   playerCruiser,
   playerDestroyer,
   playerSubmarine,
-} from "./shipClass";
+} from "../classes/ship";
 
 const shipSizes = {
   carrierContainer: "50%",
@@ -14,7 +14,7 @@ const shipSizes = {
   destroyerContainer: "20%",
 };
 
-// Function to handle horizontal ship positioning
+// Function to placeShip on the gameboard grid
 export function placeShip(
   draggedShipId,
   draggedShipImg,

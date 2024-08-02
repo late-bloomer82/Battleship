@@ -2,9 +2,10 @@ import {
   placeShip,
   modifyShipAxisProperty,
   rotateImage,
-} from "./axisFunctionality";
+} from "./dom/shipPlacement";
 import { checkButtonState } from "./axisButtonsStateManagement";
-import { playerGameboard } from "./gameboard";
+import { playerGameboard } from "./classes/gameboard";
+import { getDraggedShipDetails } from "./dom/domSetupPage";
 
 export function dragNdrop() {
   const squares = document.querySelectorAll(".squares");
@@ -41,14 +42,6 @@ function handleDragEnter(event) {
 function handleDragLeave(event) {
   event.preventDefault();
   event.target.classList.remove("highlight");
-}
-
-// Function to get the dragged ship details
-function getDraggedShipDetails(event) {
-  const draggedShipId = event.dataTransfer.getData("text/plain");
-  const draggedContainer = document.getElementById(draggedShipId);
-  const draggedShipImg = document.querySelector(`#${draggedShipId} img`);
-  return { draggedShipId, draggedContainer, draggedShipImg };
 }
 
 // Function to calculate the position relative to the grid container in percentages

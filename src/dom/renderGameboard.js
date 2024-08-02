@@ -1,5 +1,5 @@
 import { createGrid } from "./domSetupPage";
-import { rotateImage } from "./axisFunctionality";
+import { rotateImage } from "./shipPlacement";
 import {
   carrierSrc,
   battleshipSrc,
@@ -7,14 +7,14 @@ import {
   destroyerSrc,
   submarineSrc,
 } from "./domSetupPage";
-import { playerGameboard } from "./gameboard";
+import { playerGameboard } from "../classes/gameboard";
 import {
   playerBattleship,
   playerCarrier,
   playerCruiser,
   playerDestroyer,
   playerSubmarine,
-} from "./shipClass";
+} from "../classes/ship";
 
 // Player gameboard
 

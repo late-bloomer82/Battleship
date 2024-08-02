@@ -1,13 +1,13 @@
 import { createPlayerGameboard } from "./renderGameboard";
-import allySrc from "./images/ally.png";
-import carrierSrc from "./images/carrier.svg";
-import battleshipSrc from "./images/battleship.svg";
-import cruiserSrc from "./images/cruiser.svg";
-import destroyerSrc from "./images/destroyer.svg";
-import submarineSrc from "./images/submarine.svg";
-import { dragNdrop } from "./dragNdrop";
-import { toggleButtonState } from "./axisButtonsStateManagement";
-import { playerGameboard } from "./gameboard";
+import allySrc from "../images/ally.png";
+import carrierSrc from "../images/carrier.svg";
+import battleshipSrc from "../images/battleship.svg";
+import cruiserSrc from "../images/cruiser.svg";
+import destroyerSrc from "../images/destroyer.svg";
+import submarineSrc from "../images/submarine.svg";
+import { dragNdrop } from "../dragNDropFunctionality";
+import { toggleButtonState } from "../axisButtonsStateManagement";
+import { playerGameboard } from "../classes/gameboard";
 import { createGamePage } from "./domGamePage";
 export const enterCombatBtn = document.getElementById("enterCombatBtn");
 export {
@@ -90,6 +90,13 @@ function createGridAxisContainer(parent) {
   gridAxisContainer.id = "gridaAxis-container";
   parent.appendChild(gridAxisContainer);
   return gridAxisContainer;
+}
+// Function to get the dragged ship details
+export function getDraggedShipDetails(event) {
+  const draggedShipId = event.dataTransfer.getData("text/plain");
+  const draggedContainer = document.getElementById(draggedShipId);
+  const draggedShipImg = document.querySelector(`#${draggedShipId} img`);
+  return { draggedShipId, draggedContainer, draggedShipImg };
 }
 
 function createAxisButtons(parent) {

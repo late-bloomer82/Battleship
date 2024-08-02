@@ -4,7 +4,7 @@ import {
   playerCruiser,
   playerDestroyer,
   playerSubmarine,
-} from "./shipClass";
+} from "./ship";
 
 export class Gameboard {
   constructor(rows = 10, columns = 10) {
