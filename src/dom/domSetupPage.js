@@ -266,6 +266,13 @@ function resetButton() {
     }
   }
 
+  function resetGameboard() {
+    playerGameboard.gameboard.forEach((coordinate) => {
+      if (coordinate.ship != null) {
+        coordinate.ship = null;
+      }
+    });
+  }
   const resetBtn = document.getElementById("resetButton");
 
   resetBtn.addEventListener("click", () => {
@@ -301,6 +308,8 @@ function resetButton() {
         resetShip(placedShip, shipInfo.container, shipInfo.text);
       }
     });
+
+    resetGameboard();
   });
 }
 
