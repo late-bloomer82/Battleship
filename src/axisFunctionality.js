@@ -36,25 +36,17 @@ export function placeShip(
 }
 
 export function modifyShipAxisProperty(draggedShipId) {
-  switch (draggedShipId) {
-    case "carrierContainer":
-      playerCarrier.axis = "y";
-      break;
+  const shipMapping = {
+    carrierContainer: playerCarrier,
+    battleshipContainer: playerBattleship,
+    cruiserContainer: playerCruiser,
+    submarineContainer: playerSubmarine,
+    destroyerContainer: playerDestroyer,
+  };
 
-    case "battleshipContainer":
-      playerBattleship.axis = "y";
-      break;
-
-    case "cruiserContainer":
-      playerCruiser.axis = "y";
-      break;
-
-    case "submarineContainer":
-      playerSubmarine.axis = "y";
-      break;
-
-    case "destroyerContainer":
-      playerDestroyer.axis = "y";
+  const ship = shipMapping[draggedShipId];
+  if (ship) {
+    ship.axis = "y";
   }
 }
 
