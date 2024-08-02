@@ -9,7 +9,7 @@ import {
 const shipSizes = {
   carrierContainer: "50%",
   battleshipContainer: "40%",
-  cruiserContainer: "40%",
+  cruiserContainer: "30%",
   submarineContainer: "30%",
   destroyerContainer: "20%",
 };

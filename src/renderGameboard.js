@@ -44,7 +44,7 @@ function getShipDetails(shipName, position) {
       width: "40%",
       shipInstance: playerBattleship,
     },
-    cruiser: { src: cruiserSrc, width: "40%", shipInstance: playerCruiser },
+    cruiser: { src: cruiserSrc, width: "30%", shipInstance: playerCruiser },
     submarine: {
       src: submarineSrc,
       width: "30%",
