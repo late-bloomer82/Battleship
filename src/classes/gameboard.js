@@ -27,7 +27,8 @@ export class Gameboard {
   }
 
   // Helper function to place ship in the gameboard object
-  placeShip(left, top, ship, size) {
+  placeShipObject(left, top, ship, size) {
+    console.log(playerGameboard);
     ship.position = { left: left, top: top };
     let axisIncrement =
       ship.axis === "y" ? { left: 0, top: 10 } : { left: 10, top: 0 };
@@ -38,11 +39,6 @@ export class Gameboard {
       left += axisIncrement.left;
       top += axisIncrement.top;
     }
-  }
-
-  placeShipObject(left, top, shipObject, shipLength) {
-    console.log(playerGameboard);
-    this.placeShip(left, top, shipObject, shipLength);
   }
 
   receiveAttack([x, y]) {
