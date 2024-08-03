@@ -1,11 +1,3 @@
-import {
-  playerBattleship,
-  playerCarrier,
-  playerCruiser,
-  playerDestroyer,
-  playerSubmarine,
-} from "./ship";
-
 export class Gameboard {
   constructor(rows = 10, columns = 10) {
     this.rows = rows;
@@ -48,26 +40,9 @@ export class Gameboard {
     }
   }
 
-  placeShipObject(left, top, shipId) {
+  placeShipObject(left, top, shipObject, shipLength) {
     console.log(playerGameboard);
-
-    switch (shipId) {
-      case "carrierContainer":
-        this.placeShip(left, top, playerCarrier, 5);
-        break;
-      case "battleshipContainer":
-        this.placeShip(left, top, playerBattleship, 4);
-        break;
-      case "cruiserContainer":
-        this.placeShip(left, top, playerCruiser, 3);
-        break;
-      case "submarineContainer":
-        this.placeShip(left, top, playerSubmarine, 3);
-        break;
-      case "destroyerContainer":
-        this.placeShip(left, top, playerDestroyer, 2);
-        break;
-    }
+    this.placeShip(left, top, shipObject, shipLength);
   }
 
   receiveAttack([x, y]) {
