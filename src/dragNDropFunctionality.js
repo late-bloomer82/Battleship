@@ -6,6 +6,13 @@ import {
 import { checkButtonState } from "./axisButtonsStateManagement";
 import { playerGameboard } from "./classes/gameboard";
 import { getDraggedShipDetails } from "./dom/domSetupPage";
+import {
+  playerBattleship,
+  playerCarrier,
+  playerCruiser,
+  playerDestroyer,
+  playerSubmarine,
+} from "./classes/ship";
 
 export function dragNdrop() {
   const squares = document.querySelectorAll(".squares");
@@ -71,6 +78,27 @@ export function snapToGridInPercent(
   };
 }
 
+//Helper function to determine which ship object is to be used
+function getShipObject(containerId) {
+  switch (containerId) {
+    case "carrier":
+      return playerCarrier;
+
+    case "battleship":
+      return playerBattleship;
+
+    case "cruiser":
+      return playerCruiser;
+
+    case "submarine":
+      return playerSubmarine;
+
+    case "destroyer":
+      return playerDestroyer;
+    default:
+      return null;
+  }
+}
 // Main function to handle drop event
 function handleDrop(event) {
   event.preventDefault();
@@ -81,7 +109,7 @@ function handleDrop(event) {
     getDraggedShipDetails(event);
 
   square.classList.remove("highlight");
-
+  const shipObject = getShipObject(draggedShipId);
   const { xPercent, yPercent } = calculateRelativePositionInPercent(
     event,
     gridContainer
@@ -118,7 +146,8 @@ function handleDrop(event) {
   playerGameboard.placeShipObject(
     snappedXPercent,
     snappedYPercent,
-    draggedShipId
+    shipObject,
+    shipObject.length
   );
 
   console.log(playerGameboard);
