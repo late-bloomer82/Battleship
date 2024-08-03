@@ -7,11 +7,11 @@ import {
 } from "../classes/ship";
 
 const shipSizes = {
-  carrierContainer: "50%",
-  battleshipContainer: "40%",
-  cruiserContainer: "30%",
-  submarineContainer: "30%",
-  destroyerContainer: "20%",
+  carrier: "50%",
+  battleship: "40%",
+  cruiser: "30%",
+  submarine: "30%",
+  destroyer: "20%",
 };
 
 // Function to placeShip on the gameboard grid
@@ -37,11 +37,11 @@ export function placeShip(
 
 export function modifyShipAxisProperty(draggedShipId) {
   const shipMapping = {
-    carrierContainer: playerCarrier,
-    battleshipContainer: playerBattleship,
-    cruiserContainer: playerCruiser,
-    submarineContainer: playerSubmarine,
-    destroyerContainer: playerDestroyer,
+    carrier: playerCarrier,
+    battleship: playerBattleship,
+    cruiser: playerCruiser,
+    submarine: playerSubmarine,
+    destroyer: playerDestroyer,
   };
 
   const ship = shipMapping[draggedShipId];
