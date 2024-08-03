@@ -136,20 +136,20 @@ function createBattleshipSidebar(parent) {
     shipImage.className = "shipImg";
     shipImage.src = ship.src;
     if (ship.title.includes("Submarine")) {
-      shipContainer.id = "submarineContainer";
-      shipImage.id = "submarine";
+      shipContainer.id = "submarine";
+      shipImage.id = "submarineImg";
     }
     if (ship.title.includes("Battleship")) {
-      shipContainer.id = "battleshipContainer";
+      shipContainer.id = "battleship";
     }
     if (ship.title.includes("Cruiser")) {
-      shipContainer.id = "cruiserContainer";
+      shipContainer.id = "cruiser";
     }
     if (ship.title.includes("Carrier")) {
-      shipContainer.id = "carrierContainer";
+      shipContainer.id = "carrier";
     }
     if (ship.title.includes("Destroyer")) {
-      shipContainer.id = "destroyerContainer";
+      shipContainer.id = "destroyer";
     }
 
     const shipTitle = document.createElement("p");
@@ -265,7 +265,6 @@ function resetButton() {
       submarineStyle(placedShip, shipTitle);
     }
   }
-
   function resetGameboard() {
     playerGameboard.gameboard.forEach((coordinate) => {
       if (coordinate.ship != null) {
@@ -279,23 +278,23 @@ function resetButton() {
     console.log("dog");
     const containers = {
       [carrierSrc]: {
-        container: document.getElementById("carrierContainer"),
+        container: document.getElementById("carrier"),
         text: "Carrier (5f)",
       },
       [battleshipSrc]: {
-        container: document.getElementById("battleshipContainer"),
+        container: document.getElementById("battleship"),
         text: "Battleship (4f)",
       },
       [cruiserSrc]: {
-        container: document.getElementById("cruiserContainer"),
+        container: document.getElementById("cruiser"),
         text: "Cruiser (3f)",
       },
       [submarineSrc]: {
-        container: document.getElementById("submarineContainer"),
+        container: document.getElementById("submarine"),
         text: "Submarine\n(3f)",
       },
       [destroyerSrc]: {
-        container: document.getElementById("destroyerContainer"),
+        container: document.getElementById("destroyer"),
         text: "Destroyer (2f)",
       },
     };
