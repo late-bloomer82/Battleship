@@ -25,6 +25,7 @@ export function createPlayerGameboard(gameboard) {
 }
 
 export function populatePlayerGameboard() {
+  const playerGrid = document.getElementById("player-grid");
   const playerShips = humanUser.ships;
   console.log(playerShips);
 
@@ -34,7 +35,7 @@ export function populatePlayerGameboard() {
       const { name, position } = ship;
       const shipDetails = getShipDetails(name, position);
       if (shipDetails) {
-        setShip(shipDetails);
+        setShip(shipDetails, playerGrid);
       }
     }
   }
@@ -65,11 +66,12 @@ function getShipDetails(shipName, position) {
   return shipData[shipName] ? { ...shipData[shipName], position } : null;
 }
 
-function setShip({ src, width, shipInstance, position }) {
-  const playerGrid = document.getElementById("player-grid");
+export function setShip({ src, width, shipInstance, position }, grid) {
   const { left, top } = position;
 
   const shipImg = document.createElement("img");
+  shipImg.className = "shipImg";
+  shipImg.classList.add("placed-ships");
   shipImg.src = src;
   shipImg.style.position = "absolute";
   shipImg.style.height = "10%";
@@ -81,5 +83,5 @@ function setShip({ src, width, shipInstance, position }) {
     rotateImage(shipImg, 90);
   }
 
-  playerGrid.appendChild(shipImg);
+  grid.appendChild(shipImg);
 }
