@@ -52,7 +52,7 @@ function handleDragLeave(event) {
 }
 
 // Function to calculate the position relative to the grid container in percentages
-export function calculateRelativePositionInPercent(event, gridContainer) {
+export function getMousePercentageCoordinates(event, gridContainer) {
   const rect = gridContainer.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
@@ -110,7 +110,7 @@ function handleDrop(event) {
 
   square.classList.remove("highlight");
   const shipObject = getShipObject(draggedShipId);
-  const { xPercent, yPercent } = calculateRelativePositionInPercent(
+  const { xPercent, yPercent } = getMousePercentageCoordinates(
     event,
     gridContainer
   );
