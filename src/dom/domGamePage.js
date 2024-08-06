@@ -2,6 +2,7 @@ import { createGameboardContainer } from "./domSetupPage";
 import enemyImg from "../images/enemy.png";
 import { allySrc } from "./domSetupPage";
 import { populatePlayerGameboard } from "./renderGameboard";
+import { computerGameboard } from "../classes/gameboard";
 
 export function createGamePage() {
   const gamePageContainer = document.createElement("div");
@@ -16,6 +17,7 @@ export function createGamePage() {
   createGrid("player-grid");
   createGrid("computer-grid");
   populatePlayerGameboard();
+  console.log("computa:", computerGameboard);
 }
 
 function createGameboardArea() {
@@ -65,7 +67,6 @@ function createQuoteBoxes(parent, img, string) {
 
 function createGrid(grid) {
   const gameboardGrid = document.getElementById(grid);
-  console.log(gameboardGrid);
 
   for (let i = 0; i < 100; i++) {
     const square = document.createElement("div");
