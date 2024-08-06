@@ -24,6 +24,7 @@ export function placeShip(
   gridContainer
 ) {
   if (shipSizes[draggedShipId]) {
+    draggedShipImg.classList.add("placed-ships");
     draggedShipImg.style.width = shipSizes[draggedShipId];
     draggedShipImg.style.height = "10%";
     draggedContainer.innerHTML = "";
