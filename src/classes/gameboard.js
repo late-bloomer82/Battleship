@@ -26,15 +26,15 @@ export class Gameboard {
     return gameboard;
   }
 
-  // Helper function to place ship in the gameboard object
   placeShipObject(left, top, ship, size) {
-    console.log(playerGameboard);
     ship.position = { left: left, top: top };
+    console.log(left, top);
     let axisIncrement =
       ship.axis === "y" ? { left: 0, top: 10 } : { left: 10, top: 0 };
 
     for (let i = 0; i < size; i++) {
       let matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
+      console.log(matchingCoordinateIndex);
       this.gameboard[matchingCoordinateIndex].ship = ship;
       left += axisIncrement.left;
       top += axisIncrement.top;
@@ -52,8 +52,10 @@ export class Gameboard {
         targetCoordinate.missedAttacks = [];
       }
       targetCoordinate.missedAttacks.push([x, y]);
+      return false;
     } else {
       targetCoordinate.ship.hit();
+      return true;
     }
   }
   percentageToGridCoordinate(percentage) {
@@ -63,7 +65,6 @@ export class Gameboard {
   findShipCoordinateIndex(left, top) {
     const x = this.percentageToGridCoordinate(left);
     const y = this.percentageToGridCoordinate(top);
-    console.log([x, y]);
     return this.gameboard.findIndex(
       (shipObject) =>
         shipObject.coordinates[0] == x && shipObject.coordinates[1] == y
