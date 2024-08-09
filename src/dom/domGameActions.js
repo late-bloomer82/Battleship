@@ -13,7 +13,6 @@ import {
   submarineSrc,
   destroyerSrc,
 } from "./domSetupPage";
-
 export function handleHitSquare(square) {
   const dot = document.createElement("div");
   square.appendChild(dot);
@@ -63,7 +62,37 @@ export function selectPlayerSquares() {
 export function selectComputerGrid() {
   return document.getElementById("computer-grid");
 }
+export function showGameResultModal(resultType, imageSrc) {
+  const endGameOverlay = document.createElement("div");
+  endGameOverlay.id = "end-game-overlay";
+  const gamePage = document.getElementById("game-page");
+  const modal = document.createElement("div");
+  const headingResult = document.createElement("h4");
+  headingResult.className = "heading-result";
+  const resultText = resultType === "win" ? "YOU WIN!" : "YOU LOSE!";
+  headingResult.textContent = resultText;
 
-function gameOverScreen() {
-  //
+  const resultImage = document.createElement("img");
+  resultImage.className = "resultImg";
+  resultImage.src = imageSrc;
+
+  const winMessage = document.createElement("p");
+  const winMessageText =
+    resultType === "win"
+      ? "We did it Captain! The ocean belongs to you — your name will be remembered in naval history!"
+      : "Your fleet was not up to the challenge. You have been utterly defeated.";
+  winMessage.textContent = winMessageText;
+  winMessage.style.fontSize = "1.3rem";
+
+  const newBattleButton = document.createElement("button");
+  newBattleButton.textContent = "New Game";
+  newBattleButton.classList.add("actionButtons");
+  newBattleButton.addEventListener("click", () => {
+    location.reload();
+  });
+  modal.className = "game-over-modal";
+  modal.classList.add(resultType === "win" ? "human-modal" : "computer-modal");
+  modal.append(headingResult, resultImage, winMessage, newBattleButton);
+
+  gamePage.append(endGameOverlay, modal);
 }
