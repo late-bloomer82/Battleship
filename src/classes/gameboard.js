@@ -78,6 +78,9 @@ export class Gameboard {
     );
     if (shipCoordinatesArray.every((element) => element.ship.isSunk())) {
       console.log("All ships are sunk");
+      return true;
+    } else {
+      return false;
     }
   }
 }
