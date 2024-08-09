@@ -28,6 +28,14 @@ body {
   background-position: center;
 }
 
+button {
+  font-family: "Montserrat", sans-serif;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+}
+
 #main-menu {
   display: flex;
   justify-content: center;
@@ -388,7 +396,7 @@ body {
 }
 
 .human-modal {
-  box-shadow: 0 0 2rem rgba(0, 31, 63, 0.5);
+  box-shadow: 0 0 2rem rgba(192, 192, 192, 0.5);
 }
 .computer-modal {
   box-shadow: 0 0 2rem rgba(192, 192, 192, 0.5);
@@ -404,16 +412,6 @@ body {
 
 .resultImg {
   height: 5rem;
-}
-.game-page-gameover {
-  position: fixed; /* Stick to the viewport */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
-  z-index: 1999; /* Ensure it’s above other content */
-  display: none; /* Initially hidden */
 }
 
 #end-game-overlay {
