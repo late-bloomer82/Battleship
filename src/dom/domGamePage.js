@@ -1,9 +1,9 @@
 import { createGameboardContainer } from "./domSetupPage";
-import enemyImg from "../images/enemy.png";
+import enemySrc from "../images/enemy.png";
 import { allySrc } from "./domSetupPage";
 import { populatePlayerGameboard } from "./renderGameboard";
 import { computerGameboard } from "../classes/gameboard";
-
+export { enemySrc };
 export function createGamePage() {
   const gamePageContainer = document.createElement("div");
   gamePageContainer.id = "game-page";
@@ -43,7 +43,7 @@ function createQuoteArea() {
   );
   createQuoteBoxes(
     quoteSection,
-    enemyImg,
+    enemySrc,
     "You will regret the day you started this. I will end you."
   );
   return quoteSection;
