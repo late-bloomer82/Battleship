@@ -251,6 +251,7 @@ function submarineStyle(submarineImg, submarineText) {
 
 function resetButton() {
   function resetShip(placedShip, shipContainer, shipText) {
+    placedShip.classList.remove("placed-ships");
     placedShip.style.position = "relative";
     placedShip.style.top = "0";
     placedShip.style.left = "0";
