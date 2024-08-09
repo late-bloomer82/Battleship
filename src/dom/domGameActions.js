@@ -55,6 +55,15 @@ export function revealShipIfSunk(computerGrid) {
   }
 }
 
-// function humanWon() {}
+export function selectPlayerSquares() {
+  const playerGrid = document.getElementById("player-grid");
+  return playerGrid.querySelectorAll(".squares");
+}
 
-// function computerWon() {}
+export function selectComputerGrid() {
+  return document.getElementById("computer-grid");
+}
+
+function gameOverScreen() {
+  //
+}
