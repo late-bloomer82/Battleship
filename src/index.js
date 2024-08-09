@@ -11,8 +11,10 @@ import {
   revealShipIfSunk,
   selectComputerGrid,
   selectPlayerSquares,
+  showGameResultModal,
 } from "./dom/domGameActions";
-import { createSetupPage, enterCombatBtn } from "./dom/domSetupPage";
+import { enemySrc } from "./dom/domGamePage";
+import { allySrc, createSetupPage, enterCombatBtn } from "./dom/domSetupPage";
 import { getMousePercentageCoordinates } from "./dragNDropFunctionality";
 
 enterCombatBtn.addEventListener("click", createSetupPage);
@@ -35,7 +37,7 @@ function handleComputerTurn() {
 
   function performAttack() {
     if (!computerTurn) {
-      handleHumanTurn(); // Re-enable human turn when computerTurn is false
+      handleHumanTurn();
       return;
     }
 
@@ -50,15 +52,21 @@ function handleComputerTurn() {
 
       if (isShipHit) {
         handleHitSquare(attackedSquare);
-        performAttack(); // Continue to the next iteration (simulated loop)
+        if (playerGameboard.checkGameboardStatus()) {
+          showGameResultModal("loss", enemySrc);
+          return;
+        }
+        performAttack();
       } else {
         computerTurn = false;
         handleMissedSquare(attackedSquare);
-        handleHumanTurn(); // Re-enable human turn
+        handleHumanTurn();
       }
     }, 2000);
   }
-
+  if (playerGameboard.checkGameboardStatus()) {
+    return;
+  }
   performAttack();
 }
 
@@ -77,6 +85,11 @@ function onHumanClick(event) {
     if (isShipHit) {
       handleHitSquare(clickedSquare);
       revealShipIfSunk(computerGrid);
+      if (computerGameboard.checkGameboardStatus()) {
+        document.body.removeEventListener("click", onHumanClick);
+        showGameResultModal("win", allySrc);
+        return;
+      }
     } else {
       computerTurn = true;
       handleMissedSquare(clickedSquare);
