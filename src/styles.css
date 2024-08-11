@@ -262,11 +262,6 @@ p {
   flex: 1 1 10%;
 }
 
-.squares.highlight {
-  border-color: green;
-  background-color: #f0fff0;
-}
-
 #reset-confirm-button-section {
   display: flex;
   justify-content: center;
@@ -422,4 +417,18 @@ p {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Dark background */
   z-index: 1; /* Sit on top */
+}
+
+.highlight.blue {
+  background-color: blue;
+}
+
+.highlight.red {
+  background-color: red;
+}
+.disabled-confirmButton {
+  border-color: rgba(255, 255, 255, 0.6509803922);
+  color: rgba(255, 255, 255, 0.6509803922);
+  pointer-events: all;
+  cursor: not-allowed;
 }
