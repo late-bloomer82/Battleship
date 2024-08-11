@@ -19,11 +19,5 @@ export function toggleButtonState() {
 }
 
 export function checkButtonState() {
-  //if x axis
-  if (state) {
-    return true;
-  } //if y axis
-  else {
-    return false;
-  }
+  return state;
 }
