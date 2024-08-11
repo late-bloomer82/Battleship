@@ -27,18 +27,27 @@ export class Gameboard {
   }
 
   placeShipObject(left, top, ship, size) {
+    const shipCoordinates = [];
     ship.position = { left: left, top: top };
     console.log(left, top);
     let axisIncrement =
       ship.axis === "y" ? { left: 0, top: 10 } : { left: 10, top: 0 };
-
     for (let i = 0; i < size; i++) {
       let matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
-      console.log(matchingCoordinateIndex);
-      this.gameboard[matchingCoordinateIndex].ship = ship;
+      const shipCoordinate = this.gameboard[matchingCoordinateIndex];
+      if (!shipCoordinate) {
+        return true;
+      }
+      if (this.isShipCollision(shipCoordinate.coordinates)) {
+        return true;
+      }
+      shipCoordinates.push(shipCoordinate);
       left += axisIncrement.left;
       top += axisIncrement.top;
     }
+    shipCoordinates.forEach((shipCoordinate) => {
+      shipCoordinate.ship = ship;
+    });
   }
 
   receiveAttack([x, y]) {
@@ -71,12 +80,22 @@ export class Gameboard {
     );
   }
 
+  getOccupiedCoordinates() {
+    return this.gameboard.filter((coordinate) => coordinate.ship != null);
+  }
+
+  isShipCollision(newshipCoordinate) {
+    const coordinatesArray = this.getOccupiedCoordinates();
+    return coordinatesArray.some(
+      (coordinate) =>
+        newshipCoordinate[0] === coordinate.coordinates[0] &&
+        newshipCoordinate[1] === coordinate.coordinates[1]
+    );
+  }
   checkGameboardStatus() {
     // Find all coordinates with a ship
-    const shipCoordinatesArray = this.gameboard.filter(
-      (coordinate) => coordinate.ship != null
-    );
-    if (shipCoordinatesArray.every((element) => element.ship.isSunk())) {
+    const coordinatesArray = this.getOccupiedCoordinates();
+    if (coordinatesArray.every((element) => element.ship.isSunk())) {
       console.log("All ships are sunk");
       return true;
     } else {
