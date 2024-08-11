@@ -5,7 +5,11 @@ import battleshipSrc from "../images/battleship.svg";
 import cruiserSrc from "../images/cruiser.svg";
 import destroyerSrc from "../images/destroyer.svg";
 import submarineSrc from "../images/submarine.svg";
-import { dragNdrop } from "../dragNDropFunctionality";
+import {
+  dragNdrop,
+  resetGameboard,
+  resetPlayerShips,
+} from "../dragNDropFunctionality";
 import { toggleButtonState } from "../axisButtonsStateManagement";
 import { playerGameboard } from "../classes/gameboard";
 import { createGamePage } from "./domGamePage";
@@ -219,7 +223,9 @@ function createResetConfirmButtonSection(parent) {
   resetBtn.textContent = "Reset";
 
   const confirmBtn = document.createElement("button");
-  confirmBtn.className = "actionButtons";
+  confirmBtn.disabled = true;
+  confirmBtn.classList.add("disabled-confirmButton");
+  confirmBtn.classList.add("actionButtons");
   confirmBtn.id = "confirmButton";
   confirmBtn.textContent = "Confirm";
 
@@ -266,12 +272,11 @@ function resetButton() {
       submarineStyle(placedShip, shipTitle);
     }
   }
-  function resetGameboard() {
-    playerGameboard.gameboard.forEach((coordinate) => {
-      if (coordinate.ship != null) {
-        coordinate.ship = null;
-      }
-    });
+
+  function resetConfirmButton() {
+    const confirmButton = document.getElementById("confirmButton");
+    confirmButton.disabled = true;
+    confirmButton.classList.add("disabled-confirmButton");
   }
   const resetBtn = document.getElementById("resetButton");
 
@@ -310,6 +315,8 @@ function resetButton() {
     });
 
     resetGameboard();
+    resetPlayerShips();
+    resetConfirmButton();
   });
 }
 
@@ -321,4 +328,10 @@ function gamePageTransition() {
 function hideSetupPage() {
   const setupPageContainer = document.getElementById("setup-page");
   setupPageContainer.style.display = "none";
+}
+
+export function updateConfirmButton() {
+  const confirmButton = document.getElementById("confirmButton");
+  confirmButton.disabled = false;
+  confirmButton.classList.remove("disabled-confirmButton");
 }
