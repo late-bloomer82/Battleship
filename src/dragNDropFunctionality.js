@@ -223,6 +223,7 @@ function handleDrop(event) {
 
   //If y button selected
   if (!checkButtonState()) {
+    console.log(checkButtonState());
     modifyShipAxisProperty(draggedShipId);
   }
   if (
@@ -280,5 +281,6 @@ export function resetPlayerShips() {
   for (const ship in humanShips) {
     const shipObject = humanShips[ship];
     shipObject.position = undefined;
+    shipObject.axis = "x";
   }
 }
