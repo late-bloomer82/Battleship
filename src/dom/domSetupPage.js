@@ -13,6 +13,7 @@ import {
 import { toggleButtonState } from "../axisButtonsStateManagement";
 import { playerGameboard } from "../classes/gameboard";
 import { createGamePage } from "./domGamePage";
+import { typeMessage } from "../messageFunctionality";
 export const enterCombatBtn = document.getElementById("enterCombatBtn");
 export {
   allySrc,
@@ -62,6 +63,7 @@ function createSetupContainer(parent) {
 }
 
 function createAllyMessageBox(parent) {
+  const userName = document.getElementById("nameInput").value;
   const allyMessageBox = document.createElement("section");
   allyMessageBox.id = "ally-message-container";
   parent.appendChild(allyMessageBox);
@@ -73,8 +75,14 @@ function createAllyMessageBox(parent) {
   allyMessageBox.appendChild(allyImage);
 
   const quoteParagraph = document.createElement("p");
-  quoteParagraph.textContent =
-    "Ahoy captain! Please choose your fleet configuration";
+  const allyTextOne = `Ahoy Captain ${userName}!`;
+  const allyTextTwo =
+    "Please choose your fleet configuration by selecting the axis and dragging and dropping ships on the map.";
+  typeMessage(quoteParagraph, allyTextOne, 30, () => {
+    quoteParagraph.textContent = "";
+    typeMessage(quoteParagraph, allyTextTwo, 30);
+  });
+
   allyMessageBox.appendChild(quoteParagraph);
 }
 
@@ -281,7 +289,6 @@ function resetButton() {
   const resetBtn = document.getElementById("resetButton");
 
   resetBtn.addEventListener("click", () => {
-    console.log("dog");
     const containers = {
       [carrierSrc]: {
         container: document.getElementById("carrier"),
