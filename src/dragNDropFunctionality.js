@@ -14,9 +14,11 @@ import {
   playerSubmarine,
 } from "./classes/ship";
 import { humanUser } from "./classes/player";
+
 // I tried using event.dataTransfer.setData and event.dataTransfer.getData to retrieve the ship that is being dragged's info
 // but it simply doesnt work because of browser security measures that make the data in dataTransfer only available on drop.
 // Had no choice but to use a global variable despite it being frowned upon :/
+
 let draggedShipId = null;
 
 export function dragNdrop() {
@@ -71,6 +73,25 @@ function handleDragOver(event) {
   }
 }
 
+function handleDragStart(event) {
+  draggedShipId = event.target.id;
+  event.dataTransfer.setData("text/plain", draggedShipId);
+}
+
+function handleDragLeave() {
+  const setupGrid = document.getElementById("setup-grid");
+  const highlightedSquares = setupGrid.querySelectorAll(".squares.highlight");
+
+  highlightedSquares.forEach((playerSquare) => {
+    if (
+      playerSquare.classList.contains("blue") ||
+      playerSquare.classList.contains("red")
+    ) {
+      playerSquare.classList.remove("highlight", "blue", "red");
+    }
+  });
+}
+
 function findHoveredSquares(x, y, squares, length) {
   const squaresArrayIndexes = [];
   const hoveredSquares = [];
@@ -115,25 +136,6 @@ function isHoveredAreaUnavailable(x, y, length) {
     }
   }
   return false;
-}
-
-function handleDragStart(event) {
-  draggedShipId = event.target.id;
-  event.dataTransfer.setData("text/plain", draggedShipId);
-}
-
-function handleDragLeave() {
-  const setupGrid = document.getElementById("setup-grid");
-  const highlightedSquares = setupGrid.querySelectorAll(".squares.highlight");
-
-  highlightedSquares.forEach((playerSquare) => {
-    if (
-      playerSquare.classList.contains("blue") ||
-      playerSquare.classList.contains("red")
-    ) {
-      playerSquare.classList.remove("highlight", "blue", "red");
-    }
-  });
 }
 
 // Function to calculate the position relative to the grid container in percentages
@@ -209,9 +211,9 @@ function handleDrop(event) {
   );
 
   const cellWidthPercent =
-    (56.94 / gridContainer.getBoundingClientRect().width) * 100;
+    (56.65 / gridContainer.getBoundingClientRect().width) * 100;
   const cellHeightPercent =
-    (55.99 / gridContainer.getBoundingClientRect().height) * 100;
+    (55.69 / gridContainer.getBoundingClientRect().height) * 100;
 
   const { snappedXPercent, snappedYPercent } = snapToGridInPercent(
     xPercent,
@@ -223,7 +225,6 @@ function handleDrop(event) {
 
   //If y button selected
   if (!checkButtonState()) {
-    console.log(checkButtonState());
     modifyShipAxisProperty(draggedShipId);
   }
   if (
@@ -238,7 +239,6 @@ function handleDrop(event) {
     if (!checkButtonState()) {
       rotateImage(draggedShipImg, 90);
     }
-    console.log("in");
     placeShip(
       draggedShipId,
       draggedShipImg,
