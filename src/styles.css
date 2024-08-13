@@ -432,3 +432,17 @@ p {
   pointer-events: all;
   cursor: not-allowed;
 }
+
+#enemyMessageSection {
+  display: flex;
+  text-align: right;
+  width: 100%;
+}
+
+#enemyParagraph {
+  flex: 1;
+}
+
+#enemyAvatar {
+  order: 2;
+}
