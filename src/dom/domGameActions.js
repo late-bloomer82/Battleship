@@ -13,6 +13,11 @@ import {
   submarineSrc,
   destroyerSrc,
 } from "./domSetupPage";
+import {
+  generateRandomAllyMessage,
+  generateRandomEnemyMessages,
+  typeMessage,
+} from "../messageFunctionality";
 export function handleHitSquare(square) {
   const dot = document.createElement("div");
   square.appendChild(dot);
@@ -95,4 +100,31 @@ export function showGameResultModal(resultType, imageSrc) {
   modal.append(headingResult, resultImage, winMessage, newBattleButton);
 
   gamePage.append(endGameOverlay, modal);
+}
+
+export async function updateMessageBox(character, result) {
+  // Get the message box element
+  const messageBox = document.getElementById(`${character}Paragraph`);
+
+  // Clear previous text content
+  messageBox.textContent = "";
+  console.log(messageBox.textContent);
+
+  // Generate the message based on the character
+  const message =
+    character === "ally"
+      ? generateRandomAllyMessage(result)
+      : generateRandomEnemyMessages(result);
+  console.log(message);
+
+  try {
+    // Call typeMessage and wait for it to finish
+    await typeMessage(messageBox, message, 50);
+    console.log("Typing complete!");
+
+    // Add additional logic here if needed after typing is done
+  } catch (error) {
+    console.error("Error during typing:", error);
+    // Handle any errors that might occur
+  }
 }
