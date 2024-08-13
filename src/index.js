@@ -12,22 +12,21 @@ import {
   selectComputerGrid,
   selectPlayerSquares,
   showGameResultModal,
+  updateMessageBox,
 } from "./dom/domGameActions";
 import { enemySrc } from "./dom/domGamePage";
 import { allySrc, createSetupPage, enterCombatBtn } from "./dom/domSetupPage";
 import { getMousePercentageCoordinates } from "./dragNDropFunctionality";
 
 enterCombatBtn.addEventListener("click", createSetupPage);
+
 console.log("hi", computerGameboard);
 console.log(computer.ships);
 setupComputerGameboard();
 
-// Start the game by enabling the human player's turn
-handleHumanTurn();
+let computerTurn = false;
 
-let computerTurn = true;
-
-function handleHumanTurn() {
+export function humanTurn() {
   document.body.addEventListener("click", onHumanClick);
 }
 
@@ -37,7 +36,7 @@ function handleComputerTurn() {
 
   function performAttack() {
     if (!computerTurn) {
-      handleHumanTurn();
+      humanTurn();
       return;
     }
 
@@ -47,20 +46,19 @@ function handleComputerTurn() {
       console.log(x, y);
       const isShipHit = playerGameboard.receiveAttack([x, y]);
       const playerSquares = selectPlayerSquares();
-      console.log(playerSquares);
       const attackedSquare = findAttackedSquare(x, y, playerSquares);
 
       if (isShipHit) {
         handleHitSquare(attackedSquare);
+        updateMessageBox("enemy", "yes").then(performAttack);
         if (playerGameboard.checkGameboardStatus()) {
           showGameResultModal("loss", enemySrc);
           return;
         }
-        performAttack();
       } else {
         computerTurn = false;
         handleMissedSquare(attackedSquare);
-        handleHumanTurn();
+        updateMessageBox("enemy", "no").then(humanTurn);
       }
     }, 2000);
   }
@@ -71,7 +69,9 @@ function handleComputerTurn() {
 }
 
 function onHumanClick(event) {
+  console.log(computerTurn);
   if (event.target.matches("#computer-grid .squares")) {
+    console.log("datebayo");
     const clickedSquare = event.target;
     const computerGrid = selectComputerGrid();
     const { xPercent, yPercent } = getMousePercentageCoordinates(
@@ -83,17 +83,20 @@ function onHumanClick(event) {
     const isShipHit = computerGameboard.receiveAttack([x, y]);
 
     if (isShipHit) {
+      document.body.removeEventListener("click", onHumanClick);
       handleHitSquare(clickedSquare);
       revealShipIfSunk(computerGrid);
+      updateMessageBox("ally", "yes").then(humanTurn);
       if (computerGameboard.checkGameboardStatus()) {
         document.body.removeEventListener("click", onHumanClick);
         showGameResultModal("win", allySrc);
         return;
       }
     } else {
+      document.body.removeEventListener("click", onHumanClick);
       computerTurn = true;
       handleMissedSquare(clickedSquare);
-      handleComputerTurn();
+      updateMessageBox("ally", "no").then(handleComputerTurn);
     }
   }
 }
