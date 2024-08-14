@@ -149,7 +149,7 @@ export function getMousePercentageCoordinates(event, gridContainer) {
 }
 
 // Function to snap position to the grid in percentages
-export function snapToGridInPercent(
+export function snapToGrid(
   xPercent,
   yPercent,
   cellWidthPercent,
@@ -215,7 +215,7 @@ function handleDrop(event) {
   const cellHeightPercent =
     (55.69 / gridContainer.getBoundingClientRect().height) * 100;
 
-  const { snappedXPercent, snappedYPercent } = snapToGridInPercent(
+  const { snappedXPercent, snappedYPercent } = snapToGrid(
     xPercent,
     yPercent,
     cellWidthPercent,
@@ -229,8 +229,8 @@ function handleDrop(event) {
   }
   if (
     !playerGameboard.placeShipObject(
-      snappedXPercent,
-      snappedYPercent,
+      xPercent,
+      yPercent,
       shipObject,
       shipObject.length
     )
