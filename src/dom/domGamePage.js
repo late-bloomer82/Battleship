@@ -2,7 +2,6 @@ import { createGameboardContainer } from "./domSetupPage";
 import enemySrc from "../images/enemy.png";
 import { allySrc } from "./domSetupPage";
 import { populatePlayerGameboard } from "./renderGameboard";
-import { computerGameboard } from "../classes/gameboard";
 import { typeMessage } from "../messageFunctionality";
 import { humanTurn } from "..";
 export { enemySrc };
@@ -19,7 +18,6 @@ export function createGamePage() {
   createGrid("player-grid");
   createGrid("computer-grid");
   populatePlayerGameboard();
-  console.log("computa:", computerGameboard);
 }
 
 function createGameboardArea() {

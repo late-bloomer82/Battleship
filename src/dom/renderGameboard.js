@@ -7,7 +7,6 @@ import {
   destroyerSrc,
   submarineSrc,
 } from "./domSetupPage";
-import { playerGameboard } from "../classes/gameboard";
 import {
   playerBattleship,
   playerCarrier,
@@ -27,7 +26,6 @@ export function createPlayerGameboard(gameboard) {
 export function populatePlayerGameboard() {
   const playerGrid = document.getElementById("player-grid");
   const playerShips = humanUser.ships;
-  console.log(playerShips);
 
   for (let key in playerShips) {
     const ship = playerShips[key]; // Access the ship object using the key
@@ -39,8 +37,6 @@ export function populatePlayerGameboard() {
       }
     }
   }
-
-  console.log(playerGameboard);
 }
 
 function getShipDetails(shipName, position) {

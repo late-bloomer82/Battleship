@@ -108,19 +108,16 @@ export async function updateMessageBox(character, result) {
 
   // Clear previous text content
   messageBox.textContent = "";
-  console.log(messageBox.textContent);
 
   // Generate the message based on the character
   const message =
     character === "ally"
       ? generateRandomAllyMessage(result)
       : generateRandomEnemyMessages(result);
-  console.log(message);
 
   try {
     // Call typeMessage and wait for it to finish
     await typeMessage(messageBox, message, 50);
-    console.log("Typing complete!");
 
     // Add additional logic here if needed after typing is done
   } catch (error) {
