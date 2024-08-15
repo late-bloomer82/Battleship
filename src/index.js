@@ -1,5 +1,4 @@
 import { computerGameboard, playerGameboard } from "./classes/gameboard";
-import { computer } from "./classes/player";
 import {
   findAttackedSquare,
   randomAttackGenerator,
@@ -20,8 +19,6 @@ import { getMousePercentageCoordinates } from "./dragNDropFunctionality";
 
 enterCombatBtn.addEventListener("click", createSetupPage);
 
-console.log("hi", computerGameboard);
-console.log(computer.ships);
 setupComputerGameboard();
 
 let computerTurn = false;
@@ -43,7 +40,6 @@ function handleComputerTurn() {
     setTimeout(() => {
       // Computer's attack logic
       const [x, y] = randomAttackGenerator();
-      console.log(x, y);
       const isShipHit = playerGameboard.receiveAttack([x, y]);
       const playerSquares = selectPlayerSquares();
       const attackedSquare = findAttackedSquare(x, y, playerSquares);
@@ -69,9 +65,7 @@ function handleComputerTurn() {
 }
 
 function onHumanClick(event) {
-  console.log(computerTurn);
   if (event.target.matches("#computer-grid .squares")) {
-    console.log("datebayo");
     const clickedSquare = event.target;
     const computerGrid = selectComputerGrid();
     const { xPercent, yPercent } = getMousePercentageCoordinates(
@@ -80,6 +74,7 @@ function onHumanClick(event) {
     );
     const x = computerGameboard.percentageToGridCoordinate(xPercent);
     const y = computerGameboard.percentageToGridCoordinate(yPercent);
+    console.log(x, y);
     const isShipHit = computerGameboard.receiveAttack([x, y]);
 
     if (isShipHit) {
@@ -88,6 +83,7 @@ function onHumanClick(event) {
       revealShipIfSunk(computerGrid);
       updateMessageBox("ally", "yes").then(humanTurn);
       if (computerGameboard.checkGameboardStatus()) {
+        console.log("d");
         document.body.removeEventListener("click", onHumanClick);
         showGameResultModal("win", allySrc);
         return;

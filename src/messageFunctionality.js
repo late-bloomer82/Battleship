@@ -46,7 +46,6 @@ export function generateRandomAllyMessage(isHit) {
     "The enemy is proving to be evasive captain, but we won't give up",
   ];
   const randomindex = generateRandomIndex();
-  console.log(randomindex);
   if (isHit === "yes") {
     return hitMessages[randomindex];
   } else if (isHit === "no") {

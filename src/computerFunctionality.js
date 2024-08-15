@@ -41,20 +41,20 @@ export function setupComputerGameboard() {
 }
 
 export function randomAttackGenerator() {
+  //Returns grid coordinates
   const x = Math.floor(Math.random() * 10);
   const y = Math.floor(Math.random() * 10);
   return [x, y];
 }
 
 export function findAttackedSquare(x, y, squares) {
-  console.log("nodeSquares", squares);
-  console.log("gameboard", playerGameboard.gameboard);
   const attackedSquareIndex = playerGameboard.gameboard.findIndex(
     (coordinate) =>
       coordinate.coordinates[0] === y && coordinate.coordinates[1] === x
   ); /*The reason im inverting the x and y is because i need to find the opposite coordinate(x and y inversed) since the 
      gameboard array coordinates are initalized in a vertical order while the DOM squares nodes array is returned or initalized horizontally. 
      So to get the accurate index for the DOM squares array,inverting the x and y in the findIndex function is needed.*/
-  console.log(attackedSquareIndex);
   return squares[attackedSquareIndex];
 }
+
+export function generateRandomShipPositions() {}
