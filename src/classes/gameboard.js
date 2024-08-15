@@ -29,17 +29,16 @@ export class Gameboard {
   placeShipObject(left, top, ship, size) {
     const shipCoordinates = [];
     ship.position = { left: left, top: top };
-    console.log(left, top);
     let axisIncrement =
       ship.axis === "y" ? { left: 0, top: 10 } : { left: 10, top: 0 };
     for (let i = 0; i < size; i++) {
       let matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
       const shipCoordinate = this.gameboard[matchingCoordinateIndex];
       if (!shipCoordinate) {
-        return true;
+        return false;
       }
       if (this.isShipCollision(shipCoordinate.coordinates)) {
-        return true;
+        return false;
       }
       shipCoordinates.push(shipCoordinate);
       left += axisIncrement.left;
@@ -48,6 +47,8 @@ export class Gameboard {
     shipCoordinates.forEach((shipCoordinate) => {
       shipCoordinate.ship = ship;
     });
+    console.log(playerGameboard);
+    return true;
   }
 
   receiveAttack([x, y]) {
@@ -96,7 +97,6 @@ export class Gameboard {
     // Find all coordinates with a ship
     const coordinatesArray = this.getOccupiedCoordinates();
     if (coordinatesArray.every((element) => element.ship.isSunk())) {
-      console.log("All ships are sunk");
       return true;
     } else {
       return false;
