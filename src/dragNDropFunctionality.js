@@ -19,8 +19,8 @@ import { humanUser } from "./classes/player";
 // but it simply doesnt work because of browser security measures that make the data in dataTransfer only available on drop.
 // Had no choice but to use a global variable despite it being frowned upon :/
 
-let draggedShipId = null;
-
+let shipId = null;
+let currentHighlightedSquares = [];
 export function dragNdrop() {
   const squares = document.querySelectorAll(".squares");
 
@@ -29,13 +29,17 @@ export function dragNdrop() {
 
   shipContainers.forEach((shipContainer) => {
     shipContainer.addEventListener("dragstart", handleDragStart);
+    shipContainer.addEventListener("dragend", () => {
+      //Reset
+      clearHighlight();
+      shipId = null;
+    });
   });
 
   gridContainer.addEventListener("dragover", handleDragOver);
   gridContainer.addEventListener("drop", handleDrop);
-
   squares.forEach((square) => {
-    square.addEventListener("dragleave", handleDragLeave);
+    square.addEventListener("dragleave", clearHighlight);
   });
 }
 
@@ -43,7 +47,7 @@ function handleDragOver(event) {
   event.preventDefault();
   const setupGrid = document.getElementById("setup-grid");
   const playerSquares = setupGrid.querySelectorAll(".squares");
-  const draggedShip = getShipObject(draggedShipId);
+  const draggedShip = getShipObject(shipId);
   const { xPercent, yPercent } = getMousePercentageCoordinates(
     event,
     setupGrid
@@ -56,11 +60,16 @@ function handleDragOver(event) {
     playerSquares,
     draggedShip.length
   );
+
+  //Clear previous highlighted area
+  clearHighlight();
+
   if (isHoveredAreaUnavailable(x, y, draggedShip.length)) {
     hoveredSquares.forEach((hoveredSquare) => {
       if (hoveredSquare != undefined) {
         hoveredSquare.classList.add("highlight");
         hoveredSquare.classList.add("red");
+        currentHighlightedSquares.push(hoveredSquare);
       }
     });
   } else if (!isHoveredAreaUnavailable(x, y, draggedShip.length)) {
@@ -68,28 +77,22 @@ function handleDragOver(event) {
       if (hoveredSquare != undefined) {
         hoveredSquare.classList.add("highlight");
         hoveredSquare.classList.add("blue");
+        currentHighlightedSquares.push(hoveredSquare);
       }
     });
   }
 }
 
 function handleDragStart(event) {
-  draggedShipId = event.target.id;
-  event.dataTransfer.setData("text/plain", draggedShipId);
+  shipId = event.target.id;
+  event.dataTransfer.setData("text/plain", shipId);
 }
 
-function handleDragLeave() {
-  const setupGrid = document.getElementById("setup-grid");
-  const highlightedSquares = setupGrid.querySelectorAll(".squares.highlight");
-
-  highlightedSquares.forEach((playerSquare) => {
-    if (
-      playerSquare.classList.contains("blue") ||
-      playerSquare.classList.contains("red")
-    ) {
-      playerSquare.classList.remove("highlight", "blue", "red");
-    }
+function clearHighlight() {
+  currentHighlightedSquares.forEach((square) => {
+    square.classList.remove("highlight", "blue", "red");
   });
+  currentHighlightedSquares = [];
 }
 
 function findHoveredSquares(x, y, squares, length) {
@@ -143,13 +146,13 @@ export function getMousePercentageCoordinates(event, gridContainer) {
   const rect = gridContainer.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
-  const xPercent = Math.round((x / rect.width) * 100);
-  const yPercent = Math.round((y / rect.height) * 100);
+  const xPercent = Math.floor((x / rect.width) * 100);
+  const yPercent = Math.floor((y / rect.height) * 100);
   return { xPercent, yPercent };
 }
 
 // Function to snap position to the grid in percentages
-export function snapToGrid(
+export function snapToGridInPercent(
   xPercent,
   yPercent,
   cellWidthPercent,
@@ -160,8 +163,8 @@ export function snapToGrid(
   const snappedYPercent =
     Math.floor(yPercent / cellHeightPercent) * cellHeightPercent;
   return {
-    snappedXPercent: Math.round(snappedXPercent),
-    snappedYPercent: Math.round(snappedYPercent),
+    snappedXPercent: Math.round(snappedXPercent / 10) * 10,
+    snappedYPercent: Math.round(snappedYPercent / 10) * 10,
   };
 }
 
@@ -189,21 +192,11 @@ function getShipObject(containerId) {
 // Main function to handle drop event
 function handleDrop(event) {
   event.preventDefault();
-
+  clearHighlight();
   const gridContainer = document.querySelector(".gameboard-grid");
-  const highlightedSquares =
-    gridContainer.querySelectorAll(".squares.highlight");
   const { draggedShipId, draggedContainer, draggedShipImg } =
     getDraggedShipDetails(event);
 
-  highlightedSquares.forEach((playerSquare) => {
-    if (
-      playerSquare.classList.contains("blue") ||
-      playerSquare.classList.contains("red")
-    ) {
-      playerSquare.classList.remove("highlight", "blue", "red");
-    }
-  });
   const shipObject = getShipObject(draggedShipId);
   const { xPercent, yPercent } = getMousePercentageCoordinates(
     event,
@@ -215,22 +208,21 @@ function handleDrop(event) {
   const cellHeightPercent =
     (55.69 / gridContainer.getBoundingClientRect().height) * 100;
 
-  const { snappedXPercent, snappedYPercent } = snapToGrid(
+  const { snappedXPercent, snappedYPercent } = snapToGridInPercent(
     xPercent,
     yPercent,
     cellWidthPercent,
     cellHeightPercent
   );
-  console.log(snappedXPercent, snappedYPercent, draggedShipId);
 
   //If y button selected
   if (!checkButtonState()) {
     modifyShipAxisProperty(draggedShipId);
   }
   if (
-    !playerGameboard.placeShipObject(
-      xPercent,
-      yPercent,
+    playerGameboard.placeShipObject(
+      snappedXPercent,
+      snappedYPercent,
       shipObject,
       shipObject.length
     )
@@ -251,7 +243,6 @@ function handleDrop(event) {
   if (enableConfirmButton()) {
     updateConfirmButton();
   }
-  console.log(playerGameboard);
 }
 
 function enableConfirmButton() {
