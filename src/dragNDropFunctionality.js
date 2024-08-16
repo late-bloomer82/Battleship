@@ -18,8 +18,9 @@ import { humanUser } from "./classes/player";
 // I tried using event.dataTransfer.setData and event.dataTransfer.getData to retrieve the ship that is being dragged's info
 // but it simply doesnt work because of browser security measures that make the data in dataTransfer only available on drop.
 // Had no choice but to use a global variable despite it being frowned upon :/
-
 let shipId = null;
+
+//Array to track highlighted squares
 let currentHighlightedSquares = [];
 export function dragNdrop() {
   const squares = document.querySelectorAll(".squares");
@@ -84,6 +85,7 @@ function handleDragOver(event) {
 }
 
 function handleDragStart(event) {
+  event.stopPropagation();
   shipId = event.target.id;
   event.dataTransfer.setData("text/plain", shipId);
 }
@@ -192,11 +194,11 @@ function getShipObject(containerId) {
 // Main function to handle drop event
 function handleDrop(event) {
   event.preventDefault();
+  //Clear previous highlighted area
   clearHighlight();
   const gridContainer = document.querySelector(".gameboard-grid");
   const { draggedShipId, draggedContainer, draggedShipImg } =
     getDraggedShipDetails(event);
-
   const shipObject = getShipObject(draggedShipId);
   const { xPercent, yPercent } = getMousePercentageCoordinates(
     event,
@@ -239,6 +241,7 @@ function handleDrop(event) {
       snappedYPercent,
       gridContainer
     );
+    draggedContainer.classList.add("placed-ship-containers");
   }
   if (enableConfirmButton()) {
     updateConfirmButton();

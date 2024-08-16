@@ -157,7 +157,12 @@ p {
 }
 
 .placed-ships {
+  pointer-events: none;
   z-index: -1;
+}
+
+.placed-ship-containers {
+  pointer-events: none;
 }
 
 #submarineImg {
@@ -234,12 +239,14 @@ p {
   flex-direction: column;
   justify-content: space-around;
   margin-right: 0.5rem;
+  user-select: none;
 }
 
 #y-axis {
   padding-left: 3rem;
   padding-bottom: 0.3rem;
   letter-spacing: 3.04rem;
+  user-select: none;
 }
 .gameboard-grid {
   z-index: 0;
