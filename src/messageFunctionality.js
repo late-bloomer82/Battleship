@@ -1,4 +1,4 @@
-export function typeMessage(element, text, delay = 30, callback) {
+export function typeMessage(element, text, delay = 20) {
   return new Promise((resolve) => {
     let index = 0;
 
@@ -8,9 +8,6 @@ export function typeMessage(element, text, delay = 30, callback) {
         index++;
         setTimeout(type, delay);
       } else {
-        if (callback) {
-          setTimeout(callback, 1000);
-        }
         resolve(); // Resolve the promise when typing is complete
       }
     }
