@@ -78,9 +78,13 @@ function createQuoteBoxes(
 
   const quoteParagraph = document.createElement("p");
   quoteParagraph.id = paragraphId;
-  //When message finishes typing start the game.
-  typeMessage(quoteParagraph, string).then(humanTurn);
   messageBox.appendChild(quoteParagraph);
+  //When message finishes typing start the game.
+  typeMessage(quoteParagraph, string).then(() => {
+    setTimeout(() => {
+      humanTurn();
+    }, 1000);
+  });
 }
 
 function createGrid(grid) {
