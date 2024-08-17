@@ -148,6 +148,7 @@ p {
   cursor: pointer;
 }
 .shipImg {
+  pointer-events: none;
   user-select: none;
   position: relative;
   filter: invert(100%) sepia(8%) saturate(37%) hue-rotate(328deg)
@@ -342,17 +343,13 @@ p {
   text-decoration: none;
 }
 
-.hit-disabled {
-  pointer-events: none;
-  user-select: none;
-}
-
-.missed-disabled {
-  pointer-events: none;
-  user-select: none;
+.squares.hit-disabled,
+.squares.missed-disabled {
+  pointer-events: none; /* Prevents any mouse events on these squares */
 }
 
 .missed-disabled div {
+  pointer-events: none; /* Prevents any mouse events on these squares */
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
@@ -364,6 +361,7 @@ p {
 }
 
 .hit-disabled div {
+  pointer-events: none; /* Prevents any mouse events on these squares */
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
@@ -454,4 +452,8 @@ p {
 
 #enemyAvatar {
   order: 2;
+}
+
+.avatar {
+  user-select: none;
 }
