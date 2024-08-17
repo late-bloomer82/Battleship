@@ -24,12 +24,12 @@ setupComputerGameboard();
 let computerTurn = false;
 
 export function humanTurn() {
-  document.body.addEventListener("click", onHumanClick);
+  updateEventListener("add");
 }
 
 function handleComputerTurn() {
   // Remove event listener to disable human interaction
-  document.body.removeEventListener("click", onHumanClick);
+  updateEventListener("remove");
 
   function performAttack() {
     if (!computerTurn) {
@@ -65,34 +65,39 @@ function handleComputerTurn() {
 }
 
 function onHumanClick(event) {
-  if (event.target.matches("#computer-grid .squares")) {
-    const clickedSquare = event.target;
-    const computerGrid = selectComputerGrid();
-    const { xPercent, yPercent } = getMousePercentageCoordinates(
-      event,
-      computerGrid
-    );
-    const x = computerGameboard.percentageToGridCoordinate(xPercent);
-    const y = computerGameboard.percentageToGridCoordinate(yPercent);
-    console.log(x, y);
-    const isShipHit = computerGameboard.receiveAttack([x, y]);
+  if (computerTurn === false) {
+    if (event.target.matches("#computer-grid .squares")) {
+      const clickedSquare = event.target;
+      const computerGrid = selectComputerGrid();
+      const { xPercent, yPercent } = getMousePercentageCoordinates(
+        event,
+        computerGrid
+      );
+      const x = computerGameboard.percentageToGridCoordinate(xPercent);
+      const y = computerGameboard.percentageToGridCoordinate(yPercent);
+      const isShipHit = computerGameboard.receiveAttack([x, y]);
 
-    if (isShipHit) {
-      document.body.removeEventListener("click", onHumanClick);
-      handleHitSquare(clickedSquare);
-      revealShipIfSunk(computerGrid);
-      updateMessageBox("ally", "yes").then(humanTurn);
-      if (computerGameboard.checkGameboardStatus()) {
-        console.log("d");
-        document.body.removeEventListener("click", onHumanClick);
-        showGameResultModal("win", allySrc);
-        return;
+      if (isShipHit) {
+        updateEventListener("remove");
+        handleHitSquare(clickedSquare);
+        revealShipIfSunk(computerGrid);
+        updateMessageBox("ally", "yes").then(humanTurn);
+        if (computerGameboard.checkGameboardStatus()) {
+          updateEventListener("remove");
+          showGameResultModal("win", allySrc);
+          return;
+        }
+      } else {
+        computerTurn = true;
+        handleMissedSquare(clickedSquare);
+        updateMessageBox("ally", "no").then(handleComputerTurn);
       }
-    } else {
-      document.body.removeEventListener("click", onHumanClick);
-      computerTurn = true;
-      handleMissedSquare(clickedSquare);
-      updateMessageBox("ally", "no").then(handleComputerTurn);
     }
   }
+}
+
+function updateEventListener(action) {
+  action === "add"
+    ? document.body.addEventListener("click", onHumanClick)
+    : document.body.removeEventListener("click", onHumanClick);
 }
