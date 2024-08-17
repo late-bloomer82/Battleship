@@ -222,13 +222,20 @@ function handleDrop(event) {
     modifyShipAxisProperty(draggedShipId);
   }
   if (
-    playerGameboard.placeShipObject(
+    playerGameboard.getShipCoordinates(
       snappedXPercent,
       snappedYPercent,
       shipObject,
       shipObject.length
     )
   ) {
+    //Place ship object on player gameboard
+    playerGameboard.placeShipObject(
+      snappedXPercent,
+      snappedYPercent,
+      shipObject,
+      shipObject.length
+    );
     //If y button selected
     if (!checkButtonState()) {
       rotateImage(draggedShipImg, 90);
@@ -243,7 +250,9 @@ function handleDrop(event) {
     );
     draggedContainer.classList.add("placed-ship-containers");
   }
+  console.log(humanUser.ships);
   if (enableConfirmButton()) {
+    console.log(humanUser.ships);
     updateConfirmButton();
   }
 }
@@ -257,6 +266,7 @@ function enableConfirmButton() {
       return false;
     }
   }
+  console.log(humanUser.ships);
   //If all ship placed ,return true
   return true;
 }

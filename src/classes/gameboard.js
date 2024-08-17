@@ -27,28 +27,12 @@ export class Gameboard {
   }
 
   placeShipObject(left, top, ship, size) {
-    const shipCoordinates = [];
     ship.position = { left: left, top: top };
-    let axisIncrement =
-      ship.axis === "y" ? { left: 0, top: 10 } : { left: 10, top: 0 };
-    for (let i = 0; i < size; i++) {
-      let matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
-      const shipCoordinate = this.gameboard[matchingCoordinateIndex];
-      if (!shipCoordinate) {
-        return false;
-      }
-      if (this.isShipCollision(shipCoordinate.coordinates)) {
-        return false;
-      }
-      shipCoordinates.push(shipCoordinate);
-      left += axisIncrement.left;
-      top += axisIncrement.top;
-    }
+    const shipCoordinates = this.getShipCoordinates(left, top, ship, size);
     shipCoordinates.forEach((shipCoordinate) => {
       shipCoordinate.ship = ship;
     });
     console.log(playerGameboard);
-    return true;
   }
 
   receiveAttack([x, y]) {
@@ -92,6 +76,26 @@ export class Gameboard {
         newshipCoordinate[0] === coordinate.coordinates[0] &&
         newshipCoordinate[1] === coordinate.coordinates[1]
     );
+  }
+
+  getShipCoordinates(left, top, ship, size) {
+    const shipCoordinates = [];
+    let axisIncrement =
+      ship.axis === "y" ? { left: 0, top: 10 } : { left: 10, top: 0 };
+    for (let i = 0; i < size; i++) {
+      let matchingCoordinateIndex = this.findShipCoordinateIndex(left, top);
+      const shipCoordinate = this.gameboard[matchingCoordinateIndex];
+      if (!shipCoordinate) {
+        return false;
+      }
+      if (this.isShipCollision(shipCoordinate.coordinates)) {
+        return false;
+      }
+      shipCoordinates.push(shipCoordinate);
+      left += axisIncrement.left;
+      top += axisIncrement.top;
+    }
+    return shipCoordinates;
   }
   checkGameboardStatus() {
     // Find all coordinates with a ship
