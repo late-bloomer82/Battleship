@@ -78,9 +78,11 @@ function createAllyMessageBox(parent) {
   const allyTextOne = `Ahoy Captain ${userName}!`;
   const allyTextTwo =
     "Please choose your fleet configuration by selecting the axis and dragging and dropping ships on the map.";
-  typeMessage(quoteParagraph, allyTextOne, 30, () => {
-    quoteParagraph.textContent = "";
-    typeMessage(quoteParagraph, allyTextTwo, 30);
+  typeMessage(quoteParagraph, allyTextOne, 30).then(() => {
+    setTimeout(() => {
+      quoteParagraph.textContent = "";
+      typeMessage(quoteParagraph, allyTextTwo, 30);
+    }, 1000);
   });
 
   allyMessageBox.appendChild(quoteParagraph);
