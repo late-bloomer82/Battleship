@@ -103,13 +103,9 @@ export function showGameResultModal(resultType, imageSrc) {
 }
 
 export async function updateMessageBox(character, result) {
-  // Get the message box element
   const messageBox = document.getElementById(`${character}Paragraph`);
-
-  // Clear previous text content
   messageBox.textContent = "";
 
-  // Generate the message based on the character
   const message =
     character === "ally"
       ? generateRandomAllyMessage(result)
@@ -117,7 +113,7 @@ export async function updateMessageBox(character, result) {
 
   try {
     // Call typeMessage and wait for it to finish
-    await typeMessage(messageBox, message, 50);
+    await typeMessage(messageBox, message);
 
     // Add additional logic here if needed after typing is done
   } catch (error) {

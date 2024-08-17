@@ -250,9 +250,7 @@ function handleDrop(event) {
     );
     draggedContainer.classList.add("placed-ship-containers");
   }
-  console.log(humanUser.ships);
   if (enableConfirmButton()) {
-    console.log(humanUser.ships);
     updateConfirmButton();
   }
 }
@@ -266,7 +264,6 @@ function enableConfirmButton() {
       return false;
     }
   }
-  console.log(humanUser.ships);
   //If all ship placed ,return true
   return true;
 }

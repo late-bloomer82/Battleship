@@ -32,7 +32,6 @@ export class Gameboard {
     shipCoordinates.forEach((shipCoordinate) => {
       shipCoordinate.ship = ship;
     });
-    console.log(playerGameboard);
   }
 
   receiveAttack([x, y]) {
