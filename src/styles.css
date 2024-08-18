@@ -33,6 +33,7 @@ button {
 }
 
 p {
+  font-size: 1.1rem;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -96,9 +97,9 @@ p {
 #axis-btn-container {
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   gap: 1.5rem;
-  height: 15%;
+  height: 10%;
   width: 100%;
 }
 
@@ -112,6 +113,21 @@ p {
   width: 11rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+#xAxisButton:hover,
+#yAxisButton:hover {
+  background-color: #555;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Active Effect */
+#xAxisButton:active,
+#yAxisButton:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* default color for x button */
@@ -144,15 +160,29 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #051923;
+  background-color: #2a2a2a;
   cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
+
+.battleship-container p {
+  font-size: 0.9rem;
+}
+
+/* Hover Effect */
+.battleship-container:hover {
+  transform: scale(1.05);
+  background-color: #0a2b4a;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
 .shipImg {
   pointer-events: none;
   user-select: none;
   position: relative;
-  filter: invert(100%) sepia(8%) saturate(37%) hue-rotate(328deg)
-    brightness(105%) contrast(100%);
+  fill: #c0c0c0;
+  stroke: #333333;
   height: 3.5rem;
   width: 6rem;
 }
@@ -210,7 +240,7 @@ p {
   align-items: center;
   gap: 0.3rem;
   padding: 0.5rem;
-  height: 5rem;
+  height: 5.2rem;
   width: 100%;
   background-color: #424242;
   border-radius: 0.5rem;
@@ -222,9 +252,11 @@ p {
   flex-direction: column;
   background-color: #424242;
   padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 .gameboard-header {
+  font-weight: bold;
   display: flex;
   justify-content: flex-end;
   font-size: 1.5rem;
@@ -243,11 +275,15 @@ p {
   user-select: none;
 }
 
-#y-axis {
+.y-axis {
   padding-left: 3rem;
   padding-bottom: 0.3rem;
-  letter-spacing: 3.04rem;
+  letter-spacing: 3.05rem;
   user-select: none;
+}
+
+#setup-gameboard .y-axis {
+  letter-spacing: 2.85rem;
 }
 .gameboard-grid {
   z-index: 0;
@@ -270,6 +306,25 @@ p {
   position: relative;
   border: 2px solid black;
   flex: 1 1 10%;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Hover Effect */
+.squares:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Active Effect */
+.squares:active {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.4
+  ); /* Darker highlight when clicked */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 #reset-confirm-button-section {
@@ -282,7 +337,6 @@ p {
   background-color: #424242;
   border-radius: 0.5rem;
 }
-
 .actionButtons {
   font-size: 1rem;
   color: #ced4da;
@@ -292,9 +346,22 @@ p {
   width: 9rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.actionButtons:hover {
+  background-color: #555;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.actionButtons:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 #title {
+  cursor: default;
   font-weight: 400;
   font-size: 2.9375rem;
   margin-bottom: 4.375rem;
@@ -312,6 +379,18 @@ p {
   margin-bottom: 3.75rem;
   font-size: 1.125rem;
   color: #ced4da;
+  padding: 0 10px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#nameInput:hover {
+  border-bottom: 0.125rem solid #495057;
+}
+
+#nameInput:focus {
+  border-bottom: 0.125rem solid #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
 }
 
 #nameInput:focus {
@@ -319,13 +398,27 @@ p {
   border-color: #f8f9fa;
   box-shadow: 0 0 0.3125rem #343a40;
 }
-
 #enterCombatBtn {
   background-color: #343a40;
   color: #ced4da;
   font-size: 1.25rem;
   border: none;
   cursor: pointer;
+  padding: 12px 24px;
+  border-radius: 5px;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+#enterCombatBtn:hover {
+  transform: scale(1.05);
+  background-color: #495057;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+#enterCombatBtn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 #githubBtn {
@@ -334,57 +427,81 @@ p {
   align-items: center;
   cursor: pointer;
   height: 3.125rem;
-  color: #ced4da;
   width: 6.25rem;
-  border-radius: 0.625rem;
+  color: #ced4da;
   background-color: #343a40;
+  border-radius: 0.625rem;
   outline: none;
   border: none;
   text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+#githubBtn:hover {
+  transform: scale(1.05);
+  background-color: #495057;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+#githubBtn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .squares.hit-disabled,
 .squares.missed-disabled {
-  pointer-events: none; /* Prevents any mouse events on these squares */
+  pointer-events: none;
+  position: relative;
 }
 
 .missed-disabled div {
-  pointer-events: none; /* Prevents any mouse events on these squares */
-  width: 0.5rem;
-  height: 0.5rem;
+  pointer-events: none;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
+  position: absolute;
+  background-color: #003366;
+  animation: moveDot 0.5s forwards;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  position: absolute;
-  background-color: blue;
 }
 
 .hit-disabled div {
-  pointer-events: none; /* Prevents any mouse events on these squares */
-  width: 0.5rem;
-  height: 0.5rem;
+  pointer-events: none;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
+  position: absolute;
+  background-color: #660000;
+  animation: moveDot 0.5s forwards;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  position: absolute;
-  background-color: red;
+}
+
+@keyframes moveDot {
+  0% {
+    transform: translate(-50%, -50%) translate(-20px, -20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(0, 0);
+    opacity: 1;
+  }
 }
 
 .game-over-modal {
   display: flex;
+  flex-direction: column;
   position: absolute;
   z-index: 2;
   gap: 1rem;
   top: 50%;
   left: 50%;
-  transform: translate(
-    -50%,
-    -50%
-  ); /* Offset the element by half of its width and height to center it */
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.75);
+  transform: translate(-50%, -50%);
+  background-color: #2a2a2a;
   justify-content: center;
   align-items: center;
   padding: 2rem;
@@ -398,9 +515,11 @@ p {
 }
 
 .human-modal {
+  background-color: #2a2a2a;
   box-shadow: 0 0 2rem rgba(192, 192, 192, 0.5);
 }
 .computer-modal {
+  background-color: #808080;
   box-shadow: 0 0 2rem rgba(192, 192, 192, 0.5);
 }
 
@@ -413,25 +532,26 @@ p {
 }
 
 .resultImg {
+  border-radius: 50%;
   height: 5rem;
 }
 
 #end-game-overlay {
-  position: fixed; /* Stay in place */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dark background */
-  z-index: 1; /* Sit on top */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .highlight.blue {
-  background-color: blue;
+  background-color: #003366;
 }
 
 .highlight.red {
-  background-color: red;
+  background-color: #660000;
 }
 .disabled-confirmButton {
   border-color: rgba(255, 255, 255, 0.6509803922);
@@ -456,4 +576,43 @@ p {
 
 .avatar {
   user-select: none;
+  border-radius: 50%;
+  margin-right: 0.8rem;
+  margin-left: 0.8rem;
+}
+
+#computer-grid .squares,
+#player-grid .squares {
+  cursor: crosshair;
+}
+
+#computer-gameboard,
+#enemyMessageSection {
+  background-color: #808080;
+  color: black;
+}
+
+#player-gameboard,
+#allyMessageSection {
+  background-color: #2a2a2a;
+}
+
+#computer-grid .placed-ships {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%)
+    hue-rotate(0deg) brightness(100%) contrast(90%);
+}
+
+@keyframes revealShip {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.placed-ships {
+  animation: revealShip 0.5s ease-out forwards;
 }
