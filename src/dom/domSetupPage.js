@@ -1,5 +1,5 @@
 import { createPlayerGameboard } from "./renderGameboard";
-import allySrc from "../images/ally.png";
+import allySrc from "../images/mikasa.jpg";
 import carrierSrc from "../images/carrier.svg";
 import battleshipSrc from "../images/battleship.svg";
 import cruiserSrc from "../images/cruiser.svg";
@@ -70,7 +70,7 @@ function createAllyMessageBox(parent) {
 
   const allyImage = document.createElement("img");
   allyImage.src = allySrc;
-  allyImage.id = "allyImage";
+  allyImage.className = "avatar";
   allyImage.style.height = "80%";
   allyMessageBox.appendChild(allyImage);
 
@@ -96,7 +96,7 @@ function createGameboardLayoutSection(parent) {
   const gridAxisContainer = createGridAxisContainer(gameboardLayoutSection);
   createAxisButtons(gridAxisContainer);
   createBattleshipSidebar(gameboardLayoutSection);
-  createGameboardContainer(gridAxisContainer, "setup-grid");
+  createGameboardContainer(gridAxisContainer, "setup-grid", "setup-gameboard");
 }
 
 function createGridAxisContainer(parent) {
@@ -198,7 +198,7 @@ export function createGameboardContainer(parent, gridId, gameboardId) {
   }
 
   const yAxisContainer = document.createElement("div");
-  yAxisContainer.id = "y-axis";
+  yAxisContainer.className = "y-axis";
   yAxisContainer.textContent = "ABCDEFGHIJ";
   gameboardContainer.appendChild(yAxisContainer);
 

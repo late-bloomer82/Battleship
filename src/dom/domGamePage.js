@@ -1,5 +1,5 @@
 import { createGameboardContainer } from "./domSetupPage";
-import enemySrc from "../images/enemy.png";
+import enemySrc from "../images/zeke.jpg";
 import { allySrc } from "./domSetupPage";
 import { populatePlayerGameboard } from "./renderGameboard";
 import { typeMessage } from "../messageFunctionality";
