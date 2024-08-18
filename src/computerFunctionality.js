@@ -39,11 +39,20 @@ export function setupComputerGameboard() {
     computerDestroyer.length
   );
 }
+const attackedSquares = new Set();
+
+function isCoordinateHit(x, y) {
+  return attackedSquares.has(`${x},${y}`);
+}
 
 export function randomAttackGenerator() {
-  //Returns grid coordinates
-  const x = Math.floor(Math.random() * 10);
-  const y = Math.floor(Math.random() * 10);
+  let x, y;
+  do {
+    x = Math.floor(Math.random() * 10);
+    y = Math.floor(Math.random() * 10);
+  } while (isCoordinateHit(x, y));
+
+  attackedSquares.add(`${x},${y}`);
   return [x, y];
 }
 
