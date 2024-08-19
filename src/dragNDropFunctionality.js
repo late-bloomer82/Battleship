@@ -1,7 +1,7 @@
 import {
   placeShip,
   modifyShipAxisProperty,
-  rotateImage,
+  addClass,
 } from "./dom/shipPlacement";
 import { checkButtonState } from "./axisButtonsStateManagement";
 import { playerGameboard } from "./classes/gameboard";
@@ -238,7 +238,7 @@ function handleDrop(event) {
     );
     //If y button selected
     if (!checkButtonState()) {
-      rotateImage(draggedShipImg, 90);
+      addClass(draggedShipImg);
     }
     placeShip(
       draggedShipId,
@@ -248,6 +248,7 @@ function handleDrop(event) {
       snappedYPercent,
       gridContainer
     );
+
     draggedContainer.classList.add("placed-ship-containers");
   }
   if (enableConfirmButton()) {
