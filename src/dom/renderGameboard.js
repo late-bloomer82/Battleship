@@ -1,5 +1,5 @@
 import { createGrid } from "./domSetupPage";
-import { rotateImage } from "./shipPlacement";
+import { addClass } from "./shipPlacement";
 import {
   carrierSrc,
   battleshipSrc,
@@ -76,7 +76,7 @@ export function setShip({ src, width, shipInstance, position }, grid) {
   shipImg.style.top = `${top}%`;
 
   if (shipInstance.axis === "y") {
-    rotateImage(shipImg, 90);
+    addClass(shipImg);
   }
 
   grid.appendChild(shipImg);
