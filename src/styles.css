@@ -519,6 +519,7 @@ p {
   box-shadow: 0 0 2rem rgba(192, 192, 192, 0.5);
 }
 .computer-modal {
+  color: black;
   background-color: #808080;
   box-shadow: 0 0 2rem rgba(192, 192, 192, 0.5);
 }
@@ -571,14 +572,14 @@ p {
 }
 
 #enemyAvatar {
+  transform: scaleX(-1);
+
   order: 2;
 }
 
 .avatar {
   user-select: none;
   border-radius: 50%;
-  margin-right: 0.8rem;
-  margin-left: 0.8rem;
 }
 
 #computer-grid .squares,
@@ -602,7 +603,19 @@ p {
     hue-rotate(0deg) brightness(100%) contrast(90%);
 }
 
-@keyframes revealShip {
+@keyframes yShipPlacementAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) rotate(90deg) translate(0px, -100%);
+    transform-origin: left top;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(90deg) translate(0px, -100%);
+    transform-origin: left top;
+  }
+}
+@keyframes shipPlacementAnimation {
   0% {
     opacity: 0;
     transform: scale(0.9);
@@ -614,5 +627,9 @@ p {
 }
 
 .placed-ships {
-  animation: revealShip 0.5s ease-out forwards;
+  animation: shipPlacementAnimation 0.5s ease-out forwards;
+}
+
+.y-ships {
+  animation: yShipPlacementAnimation 0.5s ease-out forwards;
 }
