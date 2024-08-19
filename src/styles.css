@@ -219,6 +219,7 @@ p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 65vw;
   height: 100vh;
   gap: 2rem;
 }
@@ -226,6 +227,7 @@ p {
   display: flex;
   gap: 1rem;
   height: 70%;
+  width: 100%;
 }
 
 #quoteSection {
@@ -262,12 +264,12 @@ p {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
-#x-axis-grid-container {
+#y-axis-grid-container {
   display: flex;
   height: 100%;
 }
 
-#x-axis {
+#y-axis {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -275,10 +277,12 @@ p {
   user-select: none;
 }
 
-.y-axis {
-  padding-left: 3rem;
-  padding-bottom: 0.3rem;
-  letter-spacing: 3.05rem;
+.x-axis {
+  display: flex;
+  justify-content: space-around;
+  padding-left: 1.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
   user-select: none;
 }
 
@@ -295,9 +299,10 @@ p {
   border: 2px solid black;
 }
 
-#gridaAxis-container {
+#gridAxis-container {
   display: flex;
   width: 80%;
+  gap: 0.5rem;
   flex-direction: column;
 }
 
@@ -572,12 +577,15 @@ p {
 }
 
 #enemyAvatar {
-  transform: scaleX(-1);
-
+  transform: scaleX(-1); /*inverse image to face the left side*/
   order: 2;
+}
+#allyAvatar {
+  width: 4rem;
 }
 
 .avatar {
+  height: 90%;
   user-select: none;
   border-radius: 50%;
 }
