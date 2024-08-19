@@ -157,16 +157,27 @@ export function getMousePercentageCoordinates(event, gridContainer) {
 export function snapToGridInPercent(
   xPercent,
   yPercent,
-  cellWidthPercent,
+  squareWidthPercent,
   cellHeightPercent
 ) {
   const snappedXPercent =
-    Math.floor(xPercent / cellWidthPercent) * cellWidthPercent;
+    Math.floor(xPercent / squareWidthPercent) * squareWidthPercent;
   const snappedYPercent =
     Math.floor(yPercent / cellHeightPercent) * cellHeightPercent;
   return {
     snappedXPercent: Math.round(snappedXPercent / 10) * 10,
     snappedYPercent: Math.round(snappedYPercent / 10) * 10,
+  };
+}
+function getSquareDimensions(gridContainer) {
+  const square = gridContainer.querySelector(".squares");
+  const squareRect = square.getBoundingClientRect();
+  const squareWidth = squareRect.width;
+  const squareHeight = squareRect.height;
+  console.log(squareWidth, squareHeight);
+  return {
+    squareWidth,
+    squareHeight,
   };
 }
 
@@ -205,16 +216,18 @@ function handleDrop(event) {
     gridContainer
   );
 
-  const cellWidthPercent =
-    (56.65 / gridContainer.getBoundingClientRect().width) * 100;
-  const cellHeightPercent =
-    (55.69 / gridContainer.getBoundingClientRect().height) * 100;
+  const { squareWidth, squareHeight } = getSquareDimensions(gridContainer);
+
+  const squareWidthPercent =
+    (squareWidth / gridContainer.getBoundingClientRect().width) * 100;
+  const squareHeightPercent =
+    (squareHeight / gridContainer.getBoundingClientRect().height) * 100;
 
   const { snappedXPercent, snappedYPercent } = snapToGridInPercent(
     xPercent,
     yPercent,
-    cellWidthPercent,
-    cellHeightPercent
+    squareWidthPercent,
+    squareHeightPercent
   );
 
   //If y button selected
@@ -254,6 +267,7 @@ function handleDrop(event) {
   if (enableConfirmButton()) {
     updateConfirmButton();
   }
+  console.log(playerGameboard);
 }
 
 function enableConfirmButton() {
