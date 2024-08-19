@@ -1,5 +1,5 @@
 import { createGameboardContainer } from "./domSetupPage";
-import enemySrc from "../images/zeke.jpg";
+import enemySrc from "../images/among_us_player_red_icon_156942.svg";
 import { allySrc } from "./domSetupPage";
 import { populatePlayerGameboard } from "./renderGameboard";
 import { typeMessage } from "../messageFunctionality";
@@ -73,7 +73,6 @@ function createQuoteBoxes(
   avatar.src = img;
   avatar.className = "avatar";
   avatar.id = avatarId;
-  avatar.style.height = "80%";
   messageBox.appendChild(avatar);
 
   const quoteParagraph = document.createElement("p");

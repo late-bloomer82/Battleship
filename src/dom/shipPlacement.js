@@ -51,7 +51,6 @@ export function modifyShipAxisProperty(draggedShipId) {
   }
 }
 
-export function rotateImage(img, angle) {
-  img.style.transform = `rotate(${angle}deg) translate(0px, -100%)`;
-  img.style.transformOrigin = "left top";
+export function addClass(img) {
+  img.classList.add("y-ships");
 }

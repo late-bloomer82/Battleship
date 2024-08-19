@@ -18,6 +18,7 @@ import {
   generateRandomEnemyMessages,
   typeMessage,
 } from "../messageFunctionality";
+import { playSound } from "../audioManagement";
 export function handleHitSquare(square) {
   const dot = document.createElement("div");
   square.appendChild(dot);
@@ -52,6 +53,7 @@ export function revealShipIfSunk(computerGrid) {
         computerGrid
       );
       indexToRemove = i;
+      playSound("revealShipSound");
     }
   }
   if (indexToRemove != null) {
@@ -85,7 +87,7 @@ export function showGameResultModal(resultType, imageSrc) {
   const winMessageText =
     resultType === "win"
       ? "We did it Captain! The ocean belongs to you — your name will be remembered in naval history!"
-      : "Your fleet was not up to the challenge. You have been utterly defeated.";
+      : "I told you to not mess with me. You have been utterly defeated.";
   winMessage.textContent = winMessageText;
   winMessage.style.fontSize = "1.3rem";
 

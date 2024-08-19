@@ -1,5 +1,5 @@
 import { createPlayerGameboard } from "./renderGameboard";
-import allySrc from "../images/mikasa.jpg";
+import allySrc from "../images/among_us_player_white_icon_156940.svg";
 import carrierSrc from "../images/carrier.svg";
 import battleshipSrc from "../images/battleship.svg";
 import cruiserSrc from "../images/cruiser.svg";
@@ -14,6 +14,7 @@ import { toggleButtonState } from "../axisButtonsStateManagement";
 import { playerGameboard } from "../classes/gameboard";
 import { createGamePage } from "./domGamePage";
 import { typeMessage } from "../messageFunctionality";
+import { playSound } from "../audioManagement";
 export const enterCombatBtn = document.getElementById("enterCombatBtn");
 export {
   allySrc,
@@ -25,6 +26,8 @@ export {
 };
 
 export function createSetupPage() {
+  //Play menu theme
+  playSound("menuTheme");
   hideMainMenu();
   const setupPageDiv = createSetupPageDiv();
   const setupContainer = createSetupContainer(setupPageDiv);
@@ -96,12 +99,12 @@ function createGameboardLayoutSection(parent) {
   const gridAxisContainer = createGridAxisContainer(gameboardLayoutSection);
   createAxisButtons(gridAxisContainer);
   createBattleshipSidebar(gameboardLayoutSection);
-  createGameboardContainer(gridAxisContainer, "setup-grid", "setup-gameboard");
+  createGameboardContainer(gridAxisContainer, "setup-grid", null);
 }
 
 function createGridAxisContainer(parent) {
   const gridAxisContainer = document.createElement("div");
-  gridAxisContainer.id = "gridaAxis-container";
+  gridAxisContainer.id = "gridAxis-container";
   parent.appendChild(gridAxisContainer);
   return gridAxisContainer;
 }
@@ -197,29 +200,39 @@ export function createGameboardContainer(parent, gridId, gameboardId) {
     }
   }
 
-  const yAxisContainer = document.createElement("div");
-  yAxisContainer.className = "y-axis";
-  yAxisContainer.textContent = "ABCDEFGHIJ";
-  gameboardContainer.appendChild(yAxisContainer);
-
-  const xAxisGridContainer = document.createElement("div");
-  xAxisGridContainer.id = "x-axis-grid-container";
-  gameboardContainer.appendChild(xAxisGridContainer);
-
   const xAxisContainer = document.createElement("div");
-  xAxisContainer.id = "x-axis";
-  xAxisGridContainer.appendChild(xAxisContainer);
+  xAxisContainer.className = "x-axis";
+  for (let i = 0; i <= 9; i++) {
+    // Create a new div element
+    let div = document.createElement("div");
+
+    // Set the text content of the div to the corresponding letter
+    div.textContent = String.fromCharCode("A".charCodeAt(0) + i);
+
+    // Append the div to the body or any other container element
+    xAxisContainer.appendChild(div);
+  }
+
+  gameboardContainer.appendChild(xAxisContainer);
+
+  const yAxisGridContainer = document.createElement("div");
+  yAxisGridContainer.id = "y-axis-grid-container";
+  gameboardContainer.appendChild(yAxisGridContainer);
+
+  const yAxisContainer = document.createElement("div");
+  yAxisContainer.id = "y-axis";
+  yAxisGridContainer.appendChild(yAxisContainer);
 
   ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].forEach((num) => {
     const div = document.createElement("div");
     div.textContent = num;
-    xAxisContainer.appendChild(div);
+    yAxisContainer.appendChild(div);
   });
 
   const gameboardGrid = document.createElement("div");
   gameboardGrid.id = gridId;
   gameboardGrid.className = "gameboard-grid";
-  xAxisGridContainer.appendChild(gameboardGrid);
+  yAxisGridContainer.appendChild(gameboardGrid);
 }
 
 function createResetConfirmButtonSection(parent) {
@@ -269,6 +282,7 @@ function resetButton() {
   function resetShip(placedShip, shipContainer, shipText) {
     shipContainer.classList.remove("placed-ship-containers");
     placedShip.classList.remove("placed-ships");
+    placedShip.classList.remove("y-ships");
     placedShip.style.position = "relative";
     placedShip.style.top = "0";
     placedShip.style.left = "0";
@@ -333,6 +347,7 @@ function resetButton() {
 function gamePageTransition() {
   hideSetupPage();
   createGamePage();
+  // stopSound("menuTheme");
 }
 
 function hideSetupPage() {
