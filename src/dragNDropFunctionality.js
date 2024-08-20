@@ -174,7 +174,6 @@ function getSquareDimensions(gridContainer) {
   const squareRect = square.getBoundingClientRect();
   const squareWidth = squareRect.width;
   const squareHeight = squareRect.height;
-  console.log(squareWidth, squareHeight);
   return {
     squareWidth,
     squareHeight,
