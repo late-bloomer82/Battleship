@@ -1,44 +1,17 @@
 import { computerGameboard, playerGameboard } from "./classes/gameboard";
-import {
-  computerBattleship,
-  computerCarrier,
-  computerCruiser,
-  computerDestroyer,
-  computerSubmarine,
-} from "./classes/ship";
+import { computer } from "./classes/player";
 
 export function setupComputerGameboard() {
-  computerGameboard.placeShipObject(
-    computerCarrier.position.left,
-    computerCarrier.position.top,
-    computerCarrier,
-    computerCarrier.length
-  );
-  computerGameboard.placeShipObject(
-    computerBattleship.position.left,
-    computerBattleship.position.top,
-    computerBattleship,
-    computerBattleship.length
-  );
-  computerGameboard.placeShipObject(
-    computerCruiser.position.left,
-    computerCruiser.position.top,
-    computerCruiser,
-    computerCruiser.length
-  );
-  computerGameboard.placeShipObject(
-    computerSubmarine.position.left,
-    computerSubmarine.position.top,
-    computerSubmarine,
-    computerSubmarine.length
-  );
-  computerGameboard.placeShipObject(
-    computerDestroyer.position.left,
-    computerDestroyer.position.top,
-    computerDestroyer,
-    computerDestroyer.length
-  );
+  const computerShips = computer.ships;
+
+  Object.keys(computerShips).forEach((key) => {
+    const ship = computerShips[key];
+    ship.axis = generateRandomAxis();
+    const { left, top } = generateValidPositions(ship, ship.length);
+    computerGameboard.placeShipObject(left, top, ship, ship.length);
+  });
 }
+
 const attackedSquares = new Set();
 
 function isCoordinateHit(x, y) {
@@ -66,4 +39,32 @@ export function findAttackedSquare(x, y, squares) {
   return squares[attackedSquareIndex];
 }
 
-export function generateRandomShipPositions() {}
+export function generateValidPositions(ship, size) {
+  let left, top;
+  do {
+    ({ left, top } = randomPositionGenerator());
+  } while (!isValidCoordinates(left, top, ship, size));
+  return { left, top };
+}
+
+function isValidCoordinates(left, top, ship, size) {
+  const shipCoordinatesArray = computerGameboard.getShipCoordinates(
+    left,
+    top,
+    ship,
+    size
+  );
+  return !!shipCoordinatesArray; // Converts the result to a boolean(true) if getShipCoordinates does return an array
+}
+
+function generateRandomAxis() {
+  const axisOptions = ["x", "y"];
+  const index = Math.floor(Math.random() * 2);
+  return axisOptions[index];
+}
+
+function randomPositionGenerator() {
+  const left = Math.floor((Math.random() * 100) / 10) * 10;
+  const top = Math.floor((Math.random() * 100) / 10) * 10;
+  return { left, top };
+}
