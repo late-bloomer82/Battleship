@@ -9,12 +9,12 @@ export const audioFiles = {
 };
 
 audioFiles.menuTheme.loop = true;
-audioFiles.menuTheme.volume = 0.05;
-audioFiles.hitSound.volume = 0.1;
-audioFiles.missSound.volume = 0.1;
+audioFiles.menuTheme.volume = 0.025;
+audioFiles.hitSound.volume = 0.05;
+audioFiles.missSound.volume = 0.05;
 audioFiles.victorySound.volume = 0.3;
-audioFiles.defeatSound.volume = 0.3;
-audioFiles.revealShipSound.volume = 0.1;
+audioFiles.defeatSound.volume = 0.25;
+audioFiles.revealShipSound.volume = 0.05;
 export function playSound(soundName) {
   const sound = audioFiles[soundName];
 
@@ -23,7 +23,7 @@ export function playSound(soundName) {
   }
 
   return new Promise((resolve, reject) => {
-    // Add event listener to resolve the promise when the sound has finished playing
+    //event listener to resolve the promise when the sound has finished playing
     sound.onended = () => {
       resolve();
     };
