@@ -13,14 +13,15 @@ import {
   showGameResultModal,
   updateMessageBox,
 } from "./dom/domGameActions";
-import { enemySrc } from "./dom/domGamePage";
-import { allySrc, createSetupPage, enterCombatBtn } from "./dom/domSetupPage";
+import defeatIcon from "./images/defeatCharacterIcon.png";
+import victoryIcon from "./images/victoryCharacterrIcon.png";
+import { createSetupPage, enterCombatBtn } from "./dom/domSetupPage";
 import { getMousePercentageCoordinates } from "./dragNDropFunctionality";
+import { playSound, stopSound } from "./audioManagement.js";
 
 enterCombatBtn.addEventListener("click", createSetupPage);
-
 setupComputerGameboard();
-
+console.log(computerGameboard);
 let computerTurn = false;
 
 export function humanTurn() {
@@ -46,15 +47,23 @@ function handleComputerTurn() {
 
       if (isShipHit) {
         handleHitSquare(attackedSquare);
-        updateMessageBox("enemy", "yes").then(performAttack);
+        Promise.all([
+          playSound("hitSound"),
+          updateMessageBox("enemy", "yes"),
+        ]).then(performAttack);
         if (playerGameboard.checkGameboardStatus()) {
-          showGameResultModal("loss", enemySrc);
+          showGameResultModal("loss", defeatIcon);
+          stopSound("menuTheme");
+          playSound("defeatSound");
           return;
         }
       } else {
         computerTurn = false;
         handleMissedSquare(attackedSquare);
-        updateMessageBox("enemy", "no").then(humanTurn);
+        Promise.all([
+          playSound("missSound"),
+          updateMessageBox("enemy", "no"),
+        ]).then(humanTurn);
       }
     }, 2000);
   }
@@ -73,24 +82,35 @@ function onHumanClick(event) {
         event,
         computerGrid
       );
+      console.log(xPercent, yPercent);
       const x = computerGameboard.percentageToGridCoordinate(xPercent);
       const y = computerGameboard.percentageToGridCoordinate(yPercent);
+      console.log(x, y);
       const isShipHit = computerGameboard.receiveAttack([x, y]);
 
       if (isShipHit) {
         updateEventListener("remove");
         handleHitSquare(clickedSquare);
         revealShipIfSunk(computerGrid);
-        updateMessageBox("ally", "yes").then(humanTurn);
+        Promise.all([
+          playSound("hitSound"),
+          updateMessageBox("ally", "yes"),
+        ]).then(humanTurn);
+
         if (computerGameboard.checkGameboardStatus()) {
           updateEventListener("remove");
-          showGameResultModal("win", allySrc);
+          showGameResultModal("win", victoryIcon);
+          stopSound("menuTheme");
+          playSound("victorySound");
           return;
         }
       } else {
         computerTurn = true;
         handleMissedSquare(clickedSquare);
-        updateMessageBox("ally", "no").then(handleComputerTurn);
+        Promise.all([
+          playSound("missSound"),
+          updateMessageBox("ally", "no"),
+        ]).then(handleComputerTurn);
       }
     }
   }
