@@ -74,7 +74,6 @@ function createAllyMessageBox(parent) {
   const allyImage = document.createElement("img");
   allyImage.src = allySrc;
   allyImage.className = "avatar";
-  allyImage.style.height = "80%";
   allyMessageBox.appendChild(allyImage);
 
   const quoteParagraph = document.createElement("p");
