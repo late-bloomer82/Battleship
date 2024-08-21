@@ -9,6 +9,7 @@ export default [
     rules: {},
   },
   {
-    ignores: ["babel.config.js", "webpack.config.js"],
+    //Using deprecated eslint version, normally its the ignores key
+    ignoresPatterns: ["babel.config.js", "webpack.config.js", ".tests/*"],
   },
 ];
