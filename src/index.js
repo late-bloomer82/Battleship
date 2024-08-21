@@ -18,11 +18,13 @@ import victoryIcon from "./images/victoryCharacterrIcon.png";
 import { createSetupPage, enterCombatBtn } from "./dom/domSetupPage";
 import { getMousePercentageCoordinates } from "./dragNDropFunctionality";
 import { playSound, stopSound } from "./audioManagement.js";
+import { computer } from "./classes/player.js";
 
 enterCombatBtn.addEventListener("click", createSetupPage);
 setupComputerGameboard();
 console.log(computerGameboard);
 let computerTurn = false;
+let isHumanTurn = true;
 
 export function humanTurn() {
   updateEventListener("add");
@@ -57,6 +59,7 @@ function handleComputerTurn() {
           return;
         }
       } else {
+        isHumanTurn = true;
         computerTurn = false;
         handleMissedSquare(attackedSquare);
         Promise.all([
@@ -73,7 +76,7 @@ function handleComputerTurn() {
 }
 
 function onHumanClick(event) {
-  if (computerTurn === false) {
+  if (computerTurn === false && isHumanTurn === true) {
     if (event.target.matches("#computer-grid .squares")) {
       const clickedSquare = event.target;
       const computerGrid = selectComputerGrid();
@@ -88,13 +91,17 @@ function onHumanClick(event) {
       const isShipHit = computerGameboard.receiveAttack([x, y]);
 
       if (isShipHit) {
+        isHumanTurn = false;
         updateEventListener("remove");
         handleHitSquare(clickedSquare);
         revealShipIfSunk(computerGrid);
         Promise.all([
           playSound("hitSound"),
           updateMessageBox("ally", "yes"),
-        ]).then(humanTurn);
+        ]).then(() => {
+          isHumanTurn = true;
+          humanTurn();
+        });
 
         if (computerGameboard.checkGameboardStatus()) {
           updateEventListener("remove");
@@ -104,6 +111,7 @@ function onHumanClick(event) {
           return;
         }
       } else {
+        isHumanTurn = false;
         computerTurn = true;
         handleMissedSquare(clickedSquare);
         Promise.all([
