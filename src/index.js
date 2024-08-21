@@ -35,7 +35,6 @@ function handleComputerTurn() {
   function performAttack() {
     if (!computerTurn) {
       humanTurn();
-      return;
     }
 
     setTimeout(() => {
