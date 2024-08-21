@@ -1,11 +1,21 @@
-import { Ship } from "../src/shipClass";
+import { Ship } from "../src/classes/ship";
 
 describe("ship object properties", () => {
-  it("should have three properties : length, hitCount and status, with hitCount set to 0 and status set to floating", () => {
-    const bigShip = new Ship(4, 0, "floating");
-    expect(bigShip.length).toBe(4);
-    expect(bigShip.hitCount).toBe(0);
-    expect(bigShip.status).toBe("floating");
+  it("should have six properties : length, hitCount,status,name,position and axis with hitCount set to 0, status set to floating and axis set to x", () => {
+    const carrierShip = new Ship(
+      4,
+      0,
+      "floating",
+      "carrier",
+      { left: 10, top: 20 },
+      "x"
+    );
+    expect(carrierShip.length).toBe(4);
+    expect(carrierShip.hitCount).toBe(0);
+    expect(carrierShip.status).toBe("floating");
+    expect(carrierShip.name).toBe("carrier");
+    expect(carrierShip.position).toEqual({ left: 10, top: 20 });
+    expect(carrierShip.axis).toBe("x");
   });
 });
 
@@ -24,11 +34,28 @@ describe("ship object methods", () => {
     expect(bigShip.isSunk()).toBeTruthy();
   });
 
+  it("should set ship status to sunken if ship hitCount equals length", () => {
+    const bigShip = new Ship(3, 0, "floating");
+    for (let i = 0; i < 3; i++) {
+      bigShip.hit();
+    }
+    bigShip.isSunk();
+    expect(bigShip.status).toBe("sunken");
+  });
+
   it("should return false if the ship is not sunk", () => {
     const bigShip = new Ship(4, 0, "floating");
     for (let i = 0; i < 3; i++) {
       bigShip.hit();
     }
     expect(bigShip.isSunk()).toBeFalsy();
+  });
+
+  it("should set the default properties of hitCount, status and axis to 0, floating and x respectively.", () => {
+    const bigShip = new Ship();
+
+    expect(bigShip.hitCount).toBe(0);
+    expect(bigShip.status).toBe("floating");
+    expect(bigShip.axis).toBe("x");
   });
 });
