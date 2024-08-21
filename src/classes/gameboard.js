@@ -51,6 +51,7 @@ export class Gameboard {
       return true;
     }
   }
+  //this method most probably shouldnt be here but screw it.
   percentageToGridCoordinate(percentage) {
     return Math.floor((percentage / 100) * 10);
   }

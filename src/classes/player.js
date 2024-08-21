@@ -12,7 +12,7 @@ import {
   playerSubmarine,
 } from "./ship";
 
-class Player {
+export class Player {
   constructor(type, gameboard, ships) {
     this.type = type;
     this.gameboard = gameboard;
