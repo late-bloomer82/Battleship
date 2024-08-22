@@ -12,24 +12,142 @@ export function setupComputerGameboard() {
   });
 }
 
-const attackedSquares = new Set();
+const attackedCoordinates = new Set();
+const adjacentCoordinates = [];
 
+// Check if a coordinate has been hit
 function isCoordinateHit(x, y) {
-  return attackedSquares.has(`${x},${y}`);
+  return attackedCoordinates.has(`${x},${y}`);
 }
 
-export function randomAttackGenerator() {
+// Generate attack coordinates
+export function generateAttack() {
+  // Try to attack an adjacent square if available
+  const nextAttack = generateAdjacentCoordinateAttack();
+  if (nextAttack) {
+    return nextAttack;
+  }
+
+  // Generate random coordinates until a coordinate that has not been attacked yet is found
   let x, y;
   do {
-    x = Math.floor(Math.random() * 10);
-    y = Math.floor(Math.random() * 10);
+    x = getRandomCoordinate();
+    y = getRandomCoordinate();
   } while (isCoordinateHit(x, y));
 
-  attackedSquares.add(`${x},${y}`);
+  attackedCoordinates.add(`${x},${y}`);
+  processHit(x, y);
+
   return [x, y];
 }
 
-export function findAttackedSquare(x, y, squares) {
+// Generate an attack based on adjacent coordinates
+function generateAdjacentCoordinateAttack() {
+  if (adjacentCoordinates.length > 0) {
+    const [nextX, nextY] = adjacentCoordinates.shift();
+    attackedCoordinates.add(`${nextX},${nextY}`);
+    processHit(nextX, nextY);
+    return [nextX, nextY];
+  }
+  return null;
+}
+
+// Process the result of an attack
+function processHit(x, y) {
+  const attackedCoordinateIndex = playerGameboard.findShipCoordinateIndex(
+    x * 10,
+    y * 10
+  );
+  const attackedCoordinate = playerGameboard.gameboard[attackedCoordinateIndex];
+
+  // If the coordinate exists and contains a ship
+  if (attackedCoordinate && attackedCoordinate.ship != null) {
+    if (attackedCoordinate.ship.axis === "x") {
+      const adjacentCoordinatesX = getAdjacentCoordinatesX(
+        attackedCoordinateIndex
+      );
+      updateAdjacentCoordinates(x, y, adjacentCoordinatesX, true);
+    } else if (attackedCoordinate.ship.axis === "y") {
+      const adjacentCoordinatesY = getAdjacentCoordinatesY(
+        attackedCoordinateIndex
+      );
+      updateAdjacentCoordinates(x, y, adjacentCoordinatesY, false);
+    }
+  }
+}
+
+// Get adjacent coordinates for horizontal ships
+function getAdjacentCoordinatesX(index) {
+  return {
+    right: playerGameboard.gameboard[index + 10],
+    left: playerGameboard.gameboard[index - 10],
+  };
+}
+
+// Get adjacent coordinates for vertical ships
+function getAdjacentCoordinatesY(index) {
+  return {
+    top: playerGameboard.gameboard[index + 1],
+    bottom: playerGameboard.gameboard[index - 1],
+  };
+}
+
+// Update adjacent coordinates based on ship orientation
+function updateAdjacentCoordinates(x, y, adjacentCoords, isHorizontal) {
+  //If x axis selected
+  if (isHorizontal) {
+    if (
+      adjacentCoords.right &&
+      adjacentCoords.right.missedAttacks === undefined &&
+      !isCoordinateHit(
+        adjacentCoords.right.coordinates[0],
+        adjacentCoords.right.coordinates[1]
+      )
+    ) {
+      adjacentCoordinates.push([x + 1, y]); // Right
+    }
+    if (
+      adjacentCoords.left &&
+      adjacentCoords.left.missedAttacks === undefined &&
+      !isCoordinateHit(
+        adjacentCoords.left.coordinates[0],
+        adjacentCoords.left.coordinates[1]
+      )
+    ) {
+      adjacentCoordinates.push([x - 1, y]); // Left
+    }
+  }
+  //If y axis selected
+  else {
+    if (
+      adjacentCoords.top &&
+      adjacentCoords.top.missedAttacks === undefined &&
+      !isCoordinateHit(
+        adjacentCoords.top.coordinates[0],
+        adjacentCoords.top.coordinates[1]
+      )
+    ) {
+      adjacentCoordinates.push([x, y + 1]); // Bottom
+    }
+    if (
+      adjacentCoords.bottom &&
+      adjacentCoords.bottom.missedAttacks === undefined &&
+      !isCoordinateHit(
+        adjacentCoords.bottom.coordinates[0],
+        adjacentCoords.bottom.coordinates[1]
+      )
+    ) {
+      adjacentCoordinates.push([x, y - 1]); // Top
+    }
+  }
+}
+
+// Helper function to get a random coordinate between 0 and 9
+function getRandomCoordinate() {
+  return Math.floor(Math.random() * 10);
+}
+
+export function findAttackedDomSquare(x, y, squares) {
   const attackedSquareIndex = playerGameboard.gameboard.findIndex(
     (coordinate) =>
       coordinate.coordinates[0] === y && coordinate.coordinates[1] === x
