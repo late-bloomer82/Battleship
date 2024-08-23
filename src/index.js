@@ -1,7 +1,7 @@
 import { computerGameboard, playerGameboard } from "./classes/gameboard";
 import {
-  findAttackedSquare,
-  randomAttackGenerator,
+  findAttackedDomSquare,
+  generateAttack,
   setupComputerGameboard,
 } from "./computerFunctionality";
 import {
@@ -18,11 +18,9 @@ import victoryIcon from "./images/victoryCharacterrIcon.png";
 import { createSetupPage, enterCombatBtn } from "./dom/domSetupPage";
 import { getMousePercentageCoordinates } from "./dragNDropFunctionality";
 import { playSound, stopSound } from "./audioManagement.js";
-import { computer } from "./classes/player.js";
 
 enterCombatBtn.addEventListener("click", createSetupPage);
 setupComputerGameboard();
-console.log(computerGameboard);
 let computerTurn = false;
 let isHumanTurn = true;
 
@@ -38,13 +36,16 @@ function handleComputerTurn() {
     if (!computerTurn) {
       humanTurn();
     }
-
+    if (playerGameboard.checkGameboardStatus()) {
+      endGame("defeat", defeatIcon);
+      return;
+    }
     setTimeout(() => {
       // Computer's attack logic
-      const [x, y] = randomAttackGenerator();
+      const [x, y] = generateAttack();
       const isShipHit = playerGameboard.receiveAttack([x, y]);
       const playerSquares = selectPlayerSquares();
-      const attackedSquare = findAttackedSquare(x, y, playerSquares);
+      const attackedSquare = findAttackedDomSquare(x, y, playerSquares);
 
       if (isShipHit) {
         handleHitSquare(attackedSquare);
@@ -52,12 +53,6 @@ function handleComputerTurn() {
           playSound("hitSound"),
           updateMessageBox("enemy", "yes"),
         ]).then(performAttack);
-        if (playerGameboard.checkGameboardStatus()) {
-          showGameResultModal("loss", defeatIcon);
-          stopSound("menuTheme");
-          playSound("defeatSound");
-          return;
-        }
       } else {
         isHumanTurn = true;
         computerTurn = false;
@@ -67,7 +62,7 @@ function handleComputerTurn() {
           updateMessageBox("enemy", "no"),
         ]).then(humanTurn);
       }
-    }, 2000);
+    }, 500);
   }
   if (playerGameboard.checkGameboardStatus()) {
     return;
@@ -84,32 +79,27 @@ function onHumanClick(event) {
         event,
         computerGrid
       );
-      console.log(xPercent, yPercent);
       const x = computerGameboard.percentageToGridCoordinate(xPercent);
       const y = computerGameboard.percentageToGridCoordinate(yPercent);
-      console.log(x, y);
       const isShipHit = computerGameboard.receiveAttack([x, y]);
 
       if (isShipHit) {
         isHumanTurn = false;
         updateEventListener("remove");
         handleHitSquare(clickedSquare);
-        revealShipIfSunk(computerGrid);
         Promise.all([
+          revealShipIfSunk(computerGrid),
           playSound("hitSound"),
           updateMessageBox("ally", "yes"),
         ]).then(() => {
+          if (computerGameboard.checkGameboardStatus()) {
+            updateEventListener("remove");
+            endGame("win", victoryIcon);
+            return;
+          }
           isHumanTurn = true;
           humanTurn();
         });
-
-        if (computerGameboard.checkGameboardStatus()) {
-          updateEventListener("remove");
-          showGameResultModal("win", victoryIcon);
-          stopSound("menuTheme");
-          playSound("victorySound");
-          return;
-        }
       } else {
         isHumanTurn = false;
         computerTurn = true;
@@ -117,7 +107,11 @@ function onHumanClick(event) {
         Promise.all([
           playSound("missSound"),
           updateMessageBox("ally", "no"),
-        ]).then(handleComputerTurn);
+        ]).then(() => {
+          setTimeout(() => {
+            handleComputerTurn();
+          }, 1000);
+        });
       }
     }
   }
@@ -127,4 +121,11 @@ function updateEventListener(action) {
   action === "add"
     ? document.body.addEventListener("click", onHumanClick)
     : document.body.removeEventListener("click", onHumanClick);
+}
+
+//Helper function when the game ends
+function endGame(result, icon) {
+  showGameResultModal(result, icon);
+  stopSound("menuTheme");
+  playSound(result === "win" ? "victorySound" : "defeatSound");
 }
