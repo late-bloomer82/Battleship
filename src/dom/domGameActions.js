@@ -39,7 +39,7 @@ const computerShips = [
   { instance: computerDestroyer, src: destroyerSrc, width: "20%" },
 ];
 
-export function revealShipIfSunk(computerGrid) {
+export async function revealShipIfSunk(computerGrid) {
   let indexToRemove = null;
   for (let i = 0; i < computerShips.length; i++) {
     if (computerShips[i].instance.isSunk()) {
@@ -53,7 +53,7 @@ export function revealShipIfSunk(computerGrid) {
         computerGrid
       );
       indexToRemove = i;
-      playSound("revealShipSound");
+      await playSound("revealShipSound");
     }
   }
   if (indexToRemove != null) {
@@ -87,7 +87,7 @@ export function showGameResultModal(resultType, imageSrc) {
   const winMessageText =
     resultType === "win"
       ? "We did it Captain! The ocean belongs to you — your name will be remembered in naval history!"
-      : "I told you to not mess with me. You have been utterly defeated.";
+      : "I told you to not mess with me, but some lessons need to be learned the hard way.";
   winMessage.textContent = winMessageText;
   winMessage.style.fontSize = "1.3rem";
 
