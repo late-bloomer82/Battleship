@@ -266,7 +266,6 @@ function handleDrop(event) {
   if (enableConfirmButton()) {
     updateConfirmButton();
   }
-  console.log(playerGameboard);
 }
 
 function enableConfirmButton() {
