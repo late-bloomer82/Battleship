@@ -2,6 +2,8 @@
 
 Battleship, the game.
 
+Game : https://late-bloomer82.github.io/Battleship/
+
 1. Use JS methods instead of using traditional loops when possible for conveniency and better time complexity.
 
 2. Mocking should be used sparingly. Mostly for functions that produce side effects(modifying global state, making network requests, or interacting with the file system, apis and databases, slow and complex operations etc..)
