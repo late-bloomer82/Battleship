@@ -59,3 +59,9 @@ Battleship, the game.
 28. The aspect-ratio property in CSS is used to ensure that an element maintains a specific ratio between its width and height. Can be useful for responsive design.
 
 29. Yea switching to grid from flexbox for the gameboard grid fixed my y-axis ships misalignment issue, shoulda used grid from the start.
+
+30. Ok so the nighmarish bug that caused multiple human hit attack clicks to happen in quick succession in the first turn before the promise finished resolving, was likely caused due to the fact that the click event listener was still active and therefore multiple promises were ocurring at once before the first one finished resolving.Even this theory I am not rly sure of, because then the easy fix would be to remove the event listener at the start of the function and then re-add it but that didnt work. Now that I have introduced the isHumanTurn flag variable, the issue has been fixed because even if the function gets called multiple times, it wont enter the if statement block. I still dont understand 100% what caused this bug but this is just my theory. It wasn't a gamebreaking bug,far from it, a very niche bug indeed,but I really wanted to fix it and I did it!
+
+31. This will eventually come with practice and experience, but I want to emphasize the point that I have to get better at problem solving and logic problems.
+
+32. Could of probably simplified the computer attack intelligence if I just realized earlier that the computer has basically cheat code access to the players objects lol.
