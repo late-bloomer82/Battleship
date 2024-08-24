@@ -19,12 +19,24 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|svg|mp3)$/i, // Apply rule to image files
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
-            loader: "file-loader", // Use file-loader for image files
+            loader: "file-loader",
             options: {
-              name: "[path][name].[ext]", // Keep original file name and path
+              name: "images/[name].[ext]", // Output images in the 'images' folder
+            },
+          },
+        ],
+      },
+      // Rule for audio files
+      {
+        test: /\.(mp3)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "audio/[name].[ext]", // Output audio files in the 'audio' folder
             },
           },
         ],
