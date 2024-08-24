@@ -1,11 +1,18 @@
-// audio object
+import menuTheme from "./audio/AMONG US - OST - MAIN THEME SONG [HQ].mp3";
+import hitSound from "./audio/Cannon Sound Effect.mp3";
+import missSound from "./audio/Water Drop - Sound Effects.mp3";
+import victorySound from "./audio/Among Us Victory Sound.mp3";
+import defeatSound from "./audio/Among Us Defeat Sound.mp3";
+import revealShipSound from "./audio/Magic Reveal Sound Effect.mp3";
+
+// Create audio object
 export const audioFiles = {
-  menuTheme: new Audio("./audio/AMONG US - OST - MAIN THEME SONG [HQ].mp3"),
-  hitSound: new Audio("./audio/Cannon Sound Effect.mp3"),
-  missSound: new Audio("./audio/Water Drop - Sound Effects.mp3"),
-  victorySound: new Audio("./audio/Among Us- Crewmate Victory Sound!.mp3"),
-  defeatSound: new Audio("./audio/Among Us Defeat Sound Effect!.mp3"),
-  revealShipSound: new Audio("./audio/Magic Reveal Sound Effect.mp3"),
+  menuTheme: new Audio(menuTheme),
+  hitSound: new Audio(hitSound),
+  missSound: new Audio(missSound),
+  victorySound: new Audio(victorySound),
+  defeatSound: new Audio(defeatSound),
+  revealShipSound: new Audio(revealShipSound),
 };
 
 audioFiles.menuTheme.loop = true;

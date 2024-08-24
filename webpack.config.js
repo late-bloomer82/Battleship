@@ -24,7 +24,18 @@ module.exports = {
           {
             loader: "file-loader", // Use file-loader for image files
             options: {
-              name: "[path][name].[ext]", // Keep original file name and path
+              name: "images/[name].[ext]", // Keep original file name and path
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(mp3)$/i, // Apply rule to MP3 files
+        use: [
+          {
+            loader: "file-loader", // Use file-loader for MP3 files
+            options: {
+              name: "audio/[name].[ext]", // Keep original file name and path, place in the audio directory
             },
           },
         ],
