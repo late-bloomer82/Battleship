@@ -1,69 +1,36 @@
 # Battleship
 
-Battleship, the game.
+A browser-based Battleship game where you play against a computer opponent.
 
-Game : https://late-bloomer82.github.io/Battleship/
+**Live demo:** https://late-bloomer82.github.io/Battleship/
 
-1. Use JS methods instead of using traditional loops when possible for conveniency and better time complexity.
+## Features
 
-2. Mocking should be used sparingly. Mostly for functions that produce side effects(modifying global state, making network requests, or interacting with the file system, apis and databases, slow and complex operations etc..)
+- Drag-and-drop ship placement with a horizontal/vertical axis toggle
+- Turn-based play against a computer opponent that fires randomly until it scores a hit, then targets the adjacent squares
+- Real-time board updates, win/loss detection and sound effects
 
-3. Object-Oriented Programming (OOP)
+## Tech
 
-4. JS compares arrays by reference(memory location) not by content
+JavaScript (ES6 classes), HTML, CSS, Jest, Babel, Webpack, ESLint
 
-5. Commit more often. I'm being too lazy with it
+## Structure
 
-6. I need to read the official docs more often.
+- `src/classes/` holds the core game logic as `Ship`, `Gameboard` and `Player` classes
+- `src/dom/` handles rendering and user interaction, kept separate from the game logic
+- `tests/` contains the Jest unit tests for the three core classes
 
-7. Generally, for responsive and accessible web applications, it's better to use relative units.
+## Running locally
 
-8. I familiarize myself with using css classes and pseudoclasses and manipulating classes using js. Its really useful for manipulating the same elements but in when they are in a different state, by adding css classes etc.
+```bash
+npm install
+npm test          # runs the Jest suite with a coverage report
+npm run build     # bundles the app with Webpack
+```
 
-9. Omg, i need to really get better applying the Single Responsibility Principle (SRP). My functions are too crowded and are not modularized enough. Too much clutter and makes reusability very difficult. Gotta get better at separating DOM manipulation from JS logic and functionality.
+## What I learned
 
-10. Writing readable and maintainable code is crucial. Refactoring is very important.
-
-11. Tbh, I'm not feeling Test first development. Development Driven Test Development(DDT) is more intuitive.
-
-12. Just realized I could of just initalized the game array coordinates with a position property that has the respective position percentages considering the 10 by 10 grid size. Would of simplified the gameboard object and other tasks...
-
-13. You can have functions inside of functions. I already knew this but, yeah.
-
-14. I used Recursion myself(index.js)! Calling the function inside of itself can sometimes be very useful(in this case i couldnt use a while loop with set timeout because of the single-threaded nature of javascript)
-
-15. Ternary operator is very useful! condition ? value_if_true : value_if_false;
-
-16. The transform: translate(-50%, -50%); CSS property is used to precisely center an absolutely positioned element within its parent element. This is necessary because absolute positioning (top: 50%; left: 50%;) sets the top-left corner of the child element to the center of the parent, not the center of the child itself. The transform property adjusts the position by moving the element up and to the left by 50% of its own width and height, thereby centering it correctly.The transform: translate(-50%, -50%); is crucial for centering an absolutely positioned element both horizontally and vertically.
-
-17. Need to familiarize myself with JS manipulation of classList.add() and classList.remove(). Can be very helpful to add pre-existing classes to style certain elements or remove them.
-
-18. It is better practice to use classes and separate css styling from js when dynamically manipulating the dom. Didn't do this too well for this project as I made this realization later on in my project.
-
-19. Using console.logs to visualize objects and data structures has helped me tremendously throughout the project.
-
-20. so in arrow function, you dont need parenthese for 1 argument, but you need parentheses for no arguments, and you also need parenthese for more than 1 arguments correct?
-
-21. Damn, promises are amazing for asynchronous operations.
-
-22. Gotta get better at using flag variables for state management.
-
-23. Instead of creating ids to so many elements for styling, I can just take advantage of css selectors to select these elements!
-
-24. Do while loop and sets! While loops are effective for random number generation operations.
-
-25. Now that im at the end of the project, im finding myself spending a lot of time fixing mistakes and bugs that I made earlier in the project, which happens, but I think this time I wasn't focused at some periods earlier in the project and its costing me a lot of time...
-
-26. I should of used grid!
-
-27. Loops for simplifying and refactoring!
-
-28. The aspect-ratio property in CSS is used to ensure that an element maintains a specific ratio between its width and height. Can be useful for responsive design.
-
-29. Yea switching to grid from flexbox for the gameboard grid fixed my y-axis ships misalignment issue, shoulda used grid from the start.
-
-30. Ok so the nighmarish bug that caused multiple human hit attack clicks to happen in quick succession in the first turn before the promise finished resolving, was likely caused due to the fact that the click event listener was still active and therefore multiple promises were ocurring at once before the first one finished resolving.Even this theory I am not rly sure of, because then the easy fix would be to remove the event listener at the start of the function and then re-add it but that didnt work. Now that I have introduced the isHumanTurn flag variable, the issue has been fixed because even if the function gets called multiple times, it wont enter the if statement block. I still dont understand 100% what caused this bug but this is just my theory. It wasn't a gamebreaking bug,far from it, a very niche bug indeed,but I really wanted to fix it and I did it!
-
-31. This will eventually come with practice and experience, but I want to emphasize the point that I have to get better at problem solving and logic problems.
-
-32. Could of probably simplified the computer attack intelligence if I just realized earlier that the computer has basically cheat code access to the players objects lol.
+- **Separating logic from the DOM.** Keeping game rules in plain classes made them much easier to test than code mixed with DOM updates. Some of my DOM functions still do too much, and splitting them up further is the first thing I would refactor.
+- **Testing workflow.** I tried strict test-first development here, and found that writing tests right after each piece of logic fit my workflow better.
+- **Async turn flow.** Timing the computer's turns with `setTimeout` taught me how JavaScript's single-threaded event loop works, and why a recursive callback was needed instead of a loop.
+- **Reference vs value.** JavaScript compares arrays by reference, not by content, which caused a few bugs in coordinate checks before I understood it.
