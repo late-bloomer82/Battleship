@@ -31,6 +31,6 @@ npm run build     # bundles the app with Webpack
 ## What I learned
 
 - **Separating logic from the DOM.** Keeping game rules in plain classes made them much easier to test than code mixed with DOM updates. Some of my DOM functions still do too much, and splitting them up further is the first thing I would refactor.
-- **Testing workflow.** I tried strict test-first development here, and found that writing tests right after each piece of logic fit my workflow better.
+- **Testing** Writing Jest tests for the core classes showed me the value of test-driven thinking: deciding a function's inputs and expected outputs before implementing it leads to smaller, more focused functions.
 - **Async turn flow.** Timing the computer's turns with `setTimeout` taught me how JavaScript's single-threaded event loop works, and why a recursive callback was needed instead of a loop.
-- **Reference vs value.** JavaScript compares arrays by reference, not by content, which caused a few bugs in coordinate checks before I understood it.
+- **Reference vs value.** JavaScript compares arrays by reference, not by content, which caused a few bugs in coordinate checks before I understood it. 
